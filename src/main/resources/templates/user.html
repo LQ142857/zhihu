@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>毕设知乎系统-首页</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<header th:replace="common::header"></header>
+<main style="margin-top: 60px">
+    <div class="container">
+        <div class="row">
+            <!--顶部封面-->
+            <div class="col-lg-12" style="padding-right: 0px;">
+                <div>
+                    <img src="/images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt="" height="220px " width="100%">
+                </div>
+                <div class="col-lg-12"
+                     style="padding-left: 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                    <div style="float: left">
+                        <img src="/images/defaultUser.jpg" alt="" width="180px" height="180px"
+                             style="border: 5px solid white;border-radius: 5px;
+                           margin-top: -80px">
+                    </div>
+                    <div style="float:left;padding:20px;width: 80% ">
+                        <div style="font-weight: bold;font-size: 23px">
+                            用户名字
+                            <img src="/fonts/man.svg" alt="" height="20px" width="20px">
+                            <span class="tips" tooltip="机构认证：淮北师范大学">
+                                <img src="/fonts/attest.svg" alt=""
+                                     style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
+                                 </span>
+                            <span class="tips" tooltip="身份认证：已完成实名认证">
+                                <img src="/fonts/identity.svg" alt=""
+                                     style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
+                                 </span>
+                        </div>
+                        <div>
+                            <span style="font-size: 16px;font-weight: normal">
+                                请编辑个性签你是个憨批)你是个憨批)请编辑个性签你是个憨批)你是个憨批)
+                            </span>
+
+                        </div>
+                        <div style="float: right;font-weight: bold;font-size: 23px">
+                            <button id="support-13" type="submit" class="btn btn-default zf-agree"
+                                    onclick="toggleButton2('support-13','关注他')"
+                                    style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
+                                关注他
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--正文内容-->
+            <div class="col-lg-8" style="margin-top: 10px;padding-right: 0px;">
+                <!--二级目录-->
+                <div class="col-lg-12"
+                     style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                    <div class="col-lg-12" style="padding:20px 10px 0px 10px">
+                        <button id="info1" class="info noButton chooseButtom" onclick="infoChange('info1','动态')">
+                            动态 <span>0</span>
+                        </button>
+                        <button id="info2" class="info noButton" onclick="infoChange('info2','文章')">
+                            文章<span>0</span>
+                        </button>
+                        <button id="info3" class="info noButton " onclick="infoChange('info3','回答')">
+                            回答<span>0</span>
+                        </button>
+                        <button id="info4" class="info noButton " onclick="infoChange('info4','提问')">
+                            提问<span>0</span>
+                        </button>
+                        <button id="info5" class="info noButton " onclick="infoChange('info5','话题')">
+                            话题<span>0</span>
+                        </button>
+                        <button id="info6" class="info noButton " onclick="infoChange('info6','收藏')">
+                            收藏<span>0</span>
+                        </button>
+                        <button id="info7" class="info noButton " onclick="infoChange('info7','关注')">
+                            关注<span>0</span>
+                        </button>
+                    </div>
+                </div>
+                <!--一条文章-->
+                <div class="col-lg-12"
+                     style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+
+                    <div id="noMessage" class="col-lg-12" style="padding:60px 10px 60px;text-align: center">
+                        <img src="/fonts/cry.svg" alt="" width="100px" height="100px">
+                        <div class="font-c3" style="margin-top: 20px">空空如也呢</div>
+                    </div>
+                    <div id="message">
+
+                    </div>
+
+                </div>
+
+
+                <!--一条文章end-->
+            </div>
+
+
+            <!--右侧栏-->
+            <div class="col-lg-4 " style="padding-right: 0px;">
+                <!--三大功能-->
+
+                <!--认证信息-->
+                <div class="col-lg-12"
+                     style="margin-top: 10px;padding: 20px 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                    <a href="">
+                        <div style="float:left;">
+                            <img src="/fonts/authenticate.svg" alt="" height="40px" width="40px">
+                        </div>
+                        <div style="float:left;padding:10px;width: 83%;">
+                            <div style="float: left">认证中心</div>
+                            <div style="float: right;color: deepskyblue;font-weight: bold">去认证
+                                <img src="/fonts/go.svg" alt="" height="20px" width="20px">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!--粉丝关注信息-->
+                <div class="col-lg-12"
+                     style="margin-top: 10px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                    <div style="float:left;width: 50%;text-align: center;
+                        border-right: 1px solid #bfbfbf">
+                        <button class="noButton" onclick="infoChange('info7','关注')">
+                            <div style="margin: 20px 0px">
+                                <div style="font-size: 17px;font-weight: bold">关注</div>
+                                <div class="font-c3">100</div>
+                            </div>
+                        </button>
+
+                    </div>
+                    <div style="float:left;width: 50%;text-align: center">
+                        <button class="noButton" onclick="infoChange('info7','关注')">
+                            <div style="margin:  20px">
+                                <div style="font-size: 17px;font-weight: bold">粉丝</div>
+                                <div class="font-c3">59195</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <!--个人成就-->
+                <div class="col-lg-12"
+                     style="margin: 10px 0px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+
+                    <div style="font-weight: bold;padding:10px 20px">
+                        个人成就
+                    </div>
+                    <div style="padding:10px 20px;border-top: 1px solid #c7c7c7">
+                        <div style="float: left">
+                            <img style="margin-top: -5px" src="/fonts/agree-%238a8a8a.svg" alt=""
+                                 height="20px" width="20px"></div>
+                        <div style="float: left;padding-left: 2px" class="font-c3"> 共获得点赞</div>
+                        <div style="float: left;padding-left: 20px">250w</div>
+                    </div>
+                    <div style="padding:10px 20px;margin-top: 10px">
+                        <div style="float: left">
+                            <img style="margin-top: -5px" src="/fonts/favorite-solid.svg" alt=""
+                                 height="20px" width="20px"></div>
+                        <div style="float: left;padding-left: 2px" class="font-c3"> 文章被收藏</div>
+                        <div style="float: left;padding-left: 20px">3360</div>
+                    </div>
+                    <div style="padding:10px 20px;margin-top: 10px">
+                        <div style="float: left">
+                            <img style="margin-top: -5px" src="/fonts/hot.svg" alt=""
+                                 height="20px" width="20px"></div>
+                        <div style="float: left;padding-left: 2px" class="font-c3"> 话题总热度</div>
+                        <div style="float: left;padding-left: 20px">1.8亿</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div style="height: 3000px"></div>
+</main>
+
+
+<!--弹出框-->
+<div id="open-modal" class="modal-window">
+    <!--收藏夹-->
+    <div>
+        <a href="#" title="Close" class="modal-close">关闭</a>
+        <h3 style="text-align: center">添加收藏</h3>
+        <h6 class="font-c3" style="text-align: center">你可以创建多个收藏夹,对文章进行分类</h6>
+        <div style="margin-top: 10px">
+            <div class="noButton " style="margin-top: 10px;margin:auto;border: 1px solid black;width: 80%">
+
+                <button class="noButton" style="width: 100%">
+                    <div style="display: flex; align-items:center;"><span style="font-weight: bolder">＋</span>分类</div>
+                </button>
+            </div>
+        </div>
+
+
+        <div style="height: 10px"></div>
+    </div>
+    <!--收藏夹end-->
+    <!--个人文章面板-->
+
+</div>
+</body>
+
+
+</html>

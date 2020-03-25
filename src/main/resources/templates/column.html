@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>毕设知乎系统-专栏</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<header th:replace="common::header"></header>
+<main style="margin-top: 60px">
+    <div class="container">
+        <div class="row" style="margin-left: 0px">
+            <div style="margin-top: 30px;"><img src="fonts/column2.svg" alt="" style="height: 40px;width: 30px">
+                <span style="font-size: 25px;padding-left: 15px;font-weight: bold">最新话题</span>
+            </div>
+
+            <!--左侧-->
+            <div style="float: left;width: 49%;">
+                <!--一条话题-->
+                <div class="col-lg-12"
+                     style="padding:0px;margin-top: 20px;box-shadow: 0px 0px 1px 1px #c0c0c0;border-radius: 5px">
+                    <div class="col-lg-12" style="padding: 0px;">
+                        <a href="">
+                            <img src="images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt=""
+                                 style="width: 100%;height: 200px;border-radius: 5px 5px 0px 0px;border: 1px solid #fdfdfd">
+                        </a>
+                    </div>
+                    <div class="col-lg-12" style="padding: 20px;">
+                        <div style="float: left">
+                            <div style="font-weight: bold;font-size: 17px">
+                                <button class="noButton" style="padding: 0px">直击苹果发布会</button>
+                            </div>
+                            <div class="font-c3" style="font-size: 13px">2020-1-56 · 114848
+                                <img src="fonts/hot.svg" alt="" style="width: 15px;height: 15px;margin-top: -5px;">
+                            </div>
+
+                        </div>
+                        <div style="float: right;">
+                            <button id="support-13" type="submit" class="btn btn-default zf-agree"
+                                    onclick="toggleButton2('support-13')"
+                                    style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
+                                关注话题
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="padding:10px 20px;border-top: 1px solid black">
+                        <a href="">
+                            <div style=" align-items:center;padding-left:10px;margin-top: 10px;
+                                                    overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+
+                                <img class="svgStyle" src="fonts/article2.svg" alt=""
+                                     style="height: 17px;width: 17px;">
+                                文章名称很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--右侧-->
+            <div style="float: right;width: 49%;">
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+</main>
+
+<div style="height: 800px">
+
+
+</div>
+</body>
+</html>
