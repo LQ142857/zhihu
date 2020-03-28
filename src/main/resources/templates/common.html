@@ -1,0 +1,500 @@
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!--头部导航栏-->
+<header th:fragment="header">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index" style="color:#2eb3ee;font-size: 25px">仿知乎</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li th:class="${header.index}"><a href="/index">首页 <span class="sr-only">(current)</span></a></li>
+                    <li th:class="${header.topic}"><a href="/topic">话题</a></li>
+                    <li th:class="${header.answer}"><a href="/answer">等你来答</a></li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <li class="dropdown" style="list-style: none;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" style="background: none">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="里面写一个问题从数据库中" style="width: 300px">
+                            </div>
+                        </a>
+                        <button type="submit" class="btn btn-default"
+                                style="background-color: dodgerblue;color: white">提问
+                        </button>
+
+                        <ul class="dropdown-menu" style="width: 300px;right: -125px;">
+                            <div class="font-c3" style="text-align: left;padding:11px;font-size: 15px ">
+                                大家都在搜
+                            </div>
+                            <hr style="margin: 5px">
+
+                            <div style="text-align: left;padding :0px 10px ">
+                                <a href="">
+                                    <div style="margin-top: 10px">
+                                        <img src="/fonts/hot-red.svg"
+                                             style="width: 17px;height: 17px"> 美国疫情情况
+                                    </div>
+                                </a>
+
+                                <a href="">
+                                    <div style="margin-top: 10px">
+                                        <img src="/fonts/hot-red.svg"
+                                             style="width: 17px;height: 17px"> 美国疫情情况
+                                    </div>
+                                </a>
+
+
+                            </div>
+
+
+                        </ul>
+                    </li>
+
+
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" style="background: none"><img
+                                src="/fonts/message.svg"
+                                alt=""
+                                style="width: 20px;height: 20px">
+                        </a>
+                        <div class="alarm">15</div>
+                        <ul class="dropdown-menu" style="width: 300px;right: -125px;">
+                            <div style="text-align: center">
+                                系统通知
+
+                            </div>
+                            <hr>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" style="background: none"><img
+                                src="/fonts/message2.svg"
+                                alt=""
+                                style="width: 20px;height: 20px">
+                        </a>
+                        <div class="alarm">5</div>
+                        <ul class="dropdown-menu" style="width: 300px;right: -125px;">
+                            <div style="text-align: center">
+                                我的消息
+
+                            </div>
+                            <hr>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false" style="padding: 5px 14px 0px 0px;background: none"><img
+                                src="/images/defaultUser.jpg"
+                                alt=""
+                                style="width: 40px;height: 40px">
+                        </a>
+                        <ul class="dropdown-menu" style="right: -25px;">
+                            <li style="margin-top: 15px">
+                                <a class="font-c3" href="#"><img style="width: 14px;height: 14px;margin-top: -5px;"
+                                                                 src="/fonts/user-solid.svg">
+                                    <span style="padding-left: 2px">我的主页</span>
+                                </a>
+                            </li>
+                            <li style="margin-top: 15px">
+                                <a class="font-c3" href="#"><img style="width: 14px;height: 14px;margin-top: -5px;"
+                                                                 src="/fonts/setting.svg">
+                                    <span style="padding-left: 2px">设置</span>
+                                </a>
+                            </li>
+                            <li style="margin-top: 15px">
+                                <a class="font-c3" href="#"><img style="width: 14px;height: 14px;margin-top: -5px;"
+                                                                 src="/fonts/logout.svg">
+                                    <span style="padding-left: 2px">注销</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<!--右侧栏-->
+<div th:fragment="right" class="col-lg-4 " style="padding-right: 0px;">
+    <!--三大功能-->
+    <div class="col-lg-12"
+         style="padding: 17px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+        <div class="col-lg-4" style="text-align: center">
+            <a href="/editor">
+                <button class="noButton">
+                    <img src="fonts/write.svg" alt="" style="height: 30px;width: 30px">
+                    <div style="margin-top: 5px">写文章</div>
+
+                </button>
+            </a>
+        </div>
+        <div class="col-lg-4" style="text-align: center">
+            <a href="#pull-question">
+                <button class="noButton">
+                    <img src="fonts/article.svg" alt="" style="height: 30px;width: 30px">
+                    <div style="margin-top: 5px">提问题</div>
+
+                </button>
+            </a>
+        </div>
+        <div class="col-lg-4" style="text-align: center">
+            <button class="noButton">
+                <img src="fonts/column3.svg" alt="" style="height: 25px;width: 25px">
+                <div style="margin-top: 5px">发专栏</div>
+
+            </button>
+        </div>
+    </div>
+    <!--身份信息-->
+
+    <div class="col-lg-12"
+         style="margin-top: 10px;padding: 0px 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+        <!--用户未登录第一次显示界面-->
+        <div id="zf-userMessage" class="line2">
+            <!--                        <img class="svgStyle" src="fonts/user-solid.svg" alt="" style="height: 17px;width: 17px;">-->
+            您还未登录
+            <button class="noButton" onclick="openLoginDiv()"
+                    style="float: right;color:dodgerblue;text-align: center;min-width: 20px">登陆/注册
+            </button>
+        </div>
+        <!--用登录界面-->
+        <div id="zf-login" hidden class="line2">
+            <div style="text-align: center">请登录</div>
+            <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/user-solid.svg" style="height: 15px;width: 15px">
+                            </span>
+                <input type="text" class="form-control" placeholder="账号"
+                       aria-describedby="sizing-addon3">
+            </div>
+            <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/password.svg" style="height: 15px;width: 15px">
+                            </span>
+                <input type="password" class="form-control" placeholder="密码"
+                       aria-describedby="sizing-addon3">
+            </div>
+            <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/VerificationCode.svg" style="height: 15px;width: 15px">
+                            </span>
+
+                <img src="images/test.jpg" alt="" style="height: 40px;width: 100%">
+                <input type="password" class="form-control" placeholder="验证码"
+                       aria-describedby="sizing-addon3">
+            </div>
+            <div style="text-align: center">
+                <div style="height: 18px;color: red">密码错误</div>
+                <button type="submit" class="btn btn-default"
+                        style="width: 80%;;background:linear-gradient(90deg,#005cff,#2ab0ff);color: white">
+                    登录
+                </button>
+                <div style="margin-top: 10px">
+
+                    <button class="noButton" style="font-size: 13px" onclick="openRegisterDiv()">
+                        还没有账号？点此注册！
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!--用注册界面-->
+        <div id="zf-register" hidden class="line2">
+            <div style="text-align: center">请填写以下信息完成注册</div>
+            <form action="/users" method="post">
+                <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/email.svg" style="height: 15px;width: 15px">
+                            </span>
+                    <input type="password" class="form-control" placeholder="邮箱"
+                           aria-describedby="sizing-addon3">
+                </div>
+                <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/password2.svg" style="height: 15px;width: 15px">
+                            </span>
+                    <input type="password" class="form-control" placeholder="密码"
+                           aria-describedby="sizing-addon3">
+                </div>
+                <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/password.svg" style="height: 15px;width: 15px">
+                            </span>
+                    <input type="password" class="form-control" placeholder="确认密码"
+                           aria-describedby="sizing-addon3">
+                </div>
+                <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/name.svg" style="height: 15px;width: 15px">
+                            </span>
+                    <input type="password" class="form-control" placeholder="用户名"
+                           aria-describedby="sizing-addon3">
+                </div>
+                <div class="input-group input-group-sm">
+                            <span class="input-group-addon">
+                                 <img src="fonts/VerificationCode.svg" style="height: 15px;width: 15px">
+                            </span>
+
+
+                    <input type="password" class="form-control" placeholder="邮箱验证码"
+                           aria-describedby="sizing-addon3" style="width: 61%">
+                    <button style="height: 30px;">获取验证码</button>
+                </div>
+                <div style="text-align: center">
+                    <div style="height: 18px;color: red">登录成功</div>
+                    <input type="submit" class="btn btn-default"
+                            style="width: 80%;;background:linear-gradient(90deg,#005cff,#2ab0ff);color: white">
+                        注册
+                    </input>
+                    <div style="margin-top: 10px">
+
+                        <button class="noButton" style="font-size: 13px" onclick="openLoginDiv()"> 已有账号？点此登录！
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+
+
+        </div>
+        <!--用户已登录面板-->
+        <div id="zf-user" class="line2">
+            <div style="margin: 10px 0px">
+                <div style="float: left"><img src="images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt=""
+                                              style="width: 40px;height: 40px;border: 1px solid #d2d2d2;border-radius: 2px">
+                </div>
+
+                <div style="font-weight: bold;color: black">
+                    用户名字
+                    <span class="tips" tooltip="机构认证：淮北师范大学">
+                                <img src="fonts/attest.svg" alt=""
+                                     style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
+                                 </span>
+                    <span class="tips" tooltip="身份认证：已完成实名认证">
+                                <img src="fonts/identity.svg" alt=""
+                                     style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
+                                 </span>
+                </div>
+                <div style="">
+                    <button class="noButton">
+                        粉丝<span style="color:#353535;">12</span>
+                    </button>
+                    <button class="noButton">
+                        关注<span style="color:#353535;">12</span>
+                    </button>
+                    <button class="noButton">
+                        获赞<span style="color:#353535;">1262</span>
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <!--个人信息-->
+    <div class="col-lg-12"
+         style="margin-top: 10px;padding: 8px 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+
+        <div class="line2">
+            <img class="svgStyle" src="fonts/article-solid.svg" alt=""
+                 style="height: 17px;width: 17px;">
+            <button class="noButton" onclick="toggleSlide('myArticle')">
+                我的文章
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">26</span>
+            <!--隐藏的我的文章-->
+            <div id="myArticle" class="slideUp" hidden>
+                <!--一篇我的文章-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/article2.svg" alt=""
+                             style="height: 17px;width: 17px;">
+                        文章名称很长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="line2">
+            <img class="svgStyle" src="fonts/favorite-solid.svg" alt="" style="height: 17px;width: 17px;">
+            <button class="noButton" style="" onclick="toggleSlide('myFavorite')">
+                我的收藏
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">10</span>
+            <!--隐藏的 我的收藏-->
+            <div id="myFavorite" class="slideUp" hidden>
+                <!--一篇 我的收藏-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/favorite.svg" alt=""
+                             style="height: 17px;width: 17px;">
+                        文章名称很长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="line2">
+            <img class="svgStyle" src="fonts/question-solid.svg" alt="" style="height: 17px;width: 17px;">
+            <button class="noButton" style="" onclick="toggleSlide('myquestion')">
+                我提出的问题
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">1</span>
+            <!--隐藏的我提出的问题-->
+            <div id="myquestion" class="slideUp" hidden>
+                <!--一篇我提出的问题-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/question.svg" alt=""
+                             style="height: 14px;width: 14px;">
+                        文章名称很长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="line2">
+            <img class="svgStyle" src="fonts/column-solid.svg" alt="" style="height: 17px;width: 17px;">
+            <button class="noButton" style="" onclick="toggleSlide('mycolumn')">
+                我关注的专栏
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">1</span>
+            <!--隐藏的我关注的专栏-->
+            <div id="mycolumn" class="slideUp" hidden>
+                <!--一篇我关注的专栏-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/colunm.svg" alt=""
+                             style="height: 14px;width: 14px;">
+                        文章名称很长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="line2">
+            <img class="svgStyle" src="fonts/question2.svg" alt="" style="height: 17px;width: 17px;">
+            <button class="noButton" style="" onclick="toggleSlide('questions')">
+                我关注的问题
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">1</span>
+            <!--隐藏的我关注的问题-->
+            <div id="questions" class="slideUp" hidden>
+                <!--一篇我关注的问题-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/question2.svg" alt=""
+                             style="height: 14px;width: 14px;">
+                        文章名称很???长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="line2">
+            <img class="svgStyle" src="fonts/answer-solid.svg" alt="" style="height: 17px;width: 17px;">
+            <button class="noButton" style="" onclick="toggleSlide('myanswer')">
+                我的回答
+            </button>
+            <span style="float: right;background-color: #e6e6e6;text-align: center;min-width: 20px">2</span>
+            <!--隐藏我的回答-->
+            <div id="myanswer" class="slideUp" hidden>
+                <!--一篇我的回答-->
+                <div style="margin-top: 10px">
+                    <div style=" align-items:center;padding-left:10px;max-width: 220px;
+                            overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
+                        <img class="svgStyle" src="fonts/answer2.svg" alt=""
+                             style="height: 17px;width: 17px;">
+                        文章名称很长很长很长很长很长很长很长很长很长很长很长
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<!--收藏弹出框-->
+<div th:fragment="alert-favorite" id="open-modal" class="modal-window">
+    <!--收藏夹-->
+    <div>
+        <a href="#" title="Close" class="modal-close">关闭</a>
+        <h3 style="text-align: center">添加收藏</h3>
+        <h6 class="font-c3" style="text-align: center">你可以创建多个收藏夹,对文章进行分类</h6>
+        <div style="margin-top: 10px">
+            <div class="noButton " style="margin-top: 10px;margin:auto;border: 1px solid black;width: 80%">
+
+                <button class="noButton" style="width: 100%">
+                    <div style="display: flex; align-items:center;"><span style="font-weight: bolder">＋</span>分类</div>
+                </button>
+            </div>
+        </div>
+
+
+        <div style="height: 10px"></div>
+    </div>
+    <!--收藏夹end-->
+</div>
+<!--提交问题弹出框-->
+<div th:fragment="alert-question" id="pull-question" class="modal-window">
+    <div style="width: 500px">
+        <a href="#" title="Close" class="modal-close">关闭</a>
+        <h3 style="text-align: center">提问题</h3>
+        <h6 class="font-c3" style="text-align: center">向无所不能的网友提问吧U•ェ•*U</h6>
+        <textarea id="zf-Q-content" name="content" style="width: 100%;height: 300px;resize:none"></textarea>
+        <div id="questionDiv" style="position: relative">
+            <div style="position:absolute;">
+                <img src="/fonts/image.svg" width="20px" height="20px" alt="">
+                上传图片(少于8张)
+
+            </div>
+            <input hidden id="zf-q-imgName" type="text">
+            <input id="questionImg" value="" type="file" style="height: 100%;width: 100% ;opacity: 0">
+            <div><input id="anonymous" type="checkbox">匿名</div>
+
+
+        </div>
+        <div style="text-align: center;">
+            <button id="zf-Q-Post" class="btn btn-default" style="width:200px;background: #006cff;color: whitesmoke">
+                提交
+            </button>
+        </div>
+    </div>
+</div>
