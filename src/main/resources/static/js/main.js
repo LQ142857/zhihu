@@ -1,6 +1,7 @@
 /*index页面登录注册面板js*/
 function openLoginDiv() {
     $("#zf-register").hide();
+    $("#tips").hide();
     $("#zf-login").fadeIn(1000);
 }
 
@@ -148,9 +149,6 @@ function herf(str) {
 /*动态script*/
 
 
-
-
-
 /*动态script*/
 
 //移除标签
@@ -171,6 +169,179 @@ function addTag() {
     $("#tagsDiv").append(btn);
     str = str + $("#tag").val() + "&&";
     $("#tags").text(str);
+}
+
+//获取注册验证码
+function registerCode() {
+    const email = $('#zf-email').val();
+    $.ajax({
+        url: '/emailRegister',
+        method: 'post',
+        data: ({
+            "email": email,
+        }),
+        success: function (res) {
+            if (res.code === 200) {
+                $("#register-msg").css("color", "deepskyblue");
+            } else {
+                $("#register-msg").css("color", "red");
+            }
+
+            $("#register-msg").text(res.msg);
+        },
+        error: function () {
+            $("#register-msg").css("color", "red");
+            $("#register-msg").text("验证码获取失败");
+        }
+    })
+}
+
+//注册
+function userRegister() {
+    const email = $('#zf-email').val();
+    const password = $('#zf-password').val();
+    const rePass = $('#zf-rePass').val();
+    const name = $('#zf-name').val();
+    const emailCode = $('#zf-emailCode').val();
+    $("#register-msg").css("color", "red");
+    if (email.length > 25) {
+        $("#register-msg").text("邮箱过长，请小于25个字符");
+        return;
+    }
+    if (password.length > 20 || password.length < 6) {
+        $("#register-msg").text("密码请输入6~20个字符");
+        return;
+    }
+    if (name.length > 10 || name.length < 6) {
+        $("#register-msg").text("名称请输入6~10个字符");
+        return;
+    }
+    if (password !== rePass) {
+        $("#register-msg").text("两次密码不一样");
+        return;
+    }
+    if (emailCode === "") {
+        $("#register-msg").text("验证码不能为空");
+        return;
+    }
+    $.ajax({
+        url: '/register',
+        method: 'post',
+        data: ({
+            email: email,
+            password: password,
+            rePass: rePass,
+            name: name,
+            emailCode: emailCode,
+        }),
+        success: function (res) {
+            console.log(res);
+            if (res.code === 200) {
+                $("#register-msg").css("color", "deepskyblue");
+            } else {
+                $("#register-msg").css("color", "red");
+            }
+
+            $("#register-msg").text(res.msg);
+        },
+        error: function () {
+            $("#register-msg").css("color", "red");
+            $("#register-msg").text("验证码获取失败");
+        }
+    })
+}
+
+//更换动态验证码
+function changeImg() {
+    $('#imgCode').attr("src", "/captcha?t" + Math.random());
+
+}
+
+//登录
+function userLogin() {
+    const account = $("#zf-account").val();
+    const p = $("#zf-p").val();
+    const code = $("#zf-code").val();
+    $("#login-msg").css("color", "red");
+    if (p === "") {
+        $("#login-msg").text("密码不能为空");
+        return;
+    }
+    if (code === "") {
+        $("#login-msg").text("验证码不能为空");
+        return;
+    }
+
+
+    $.ajax({
+        url: '/login',
+        method: 'post',
+        data: ({
+            email: account,
+            password: p,
+            code: code,
+        }),
+        success: function (res) {
+            console.log(res);
+            if (res.code === 200) {
+                window.location.reload();
+
+            } else {
+                $("#login-msg").css("color", "red");
+            }
+            $("#login-msg").text(res.msg);
+        },
+        error: function () {
+            $("#login-msg").css("color", "red");
+            $("#login-msg").text("登录失败");
+        }
+
+    })
+
+
+}
+
+/*topic提交*/
+function postTopic() {
+    const cover = $("#zf-cover").val();
+    const title = $("#zf-title").val();
+    const summary = $("#zf-summary").val();
+    if (cover === "") {
+        alert("请上传封面图片");
+        return;
+    }
+    if (title === "") {
+        alert("标题不能空");
+        return;
+    }
+    if (title.length>15) {
+        alert("标题过长");
+        return;
+    }
+    if (summary === "") {
+        alert("优秀的简介可以吸引其他用户参与哦~");
+        return;
+    }
+    $.ajax({
+        url: '/topics',
+        method: 'post',
+        data: ({
+            cover: cover,
+            title: title,
+            summary: summary,
+        }),
+        success: function (res) {
+            if (res.code === 200) {
+                alert(res.msg);
+                window.location.reload();
+            } else {
+                alert(res.msg);
+            }
+        },
+        error: function () {
+            alert("发布失败")
+        }
+    })
 }
 
 

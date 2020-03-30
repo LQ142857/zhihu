@@ -7,8 +7,12 @@ import com.a7z.zhihu.entity.po.Article;
  * @create 2020/3/25-22:40
  */
 public interface ArticleService {
-
-    void addOne(Article article);
+    /**
+     *
+     * @param article
+     * @return文章主键
+     */
+    String addOne(Article article);
 
     Article findOne(String id);
 

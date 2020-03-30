@@ -1,10 +1,13 @@
 package com.a7z.zhihu.controller.show;
 
 import com.a7z.zhihu.entity.po.Article;
+import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.ArticlePostVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.TagService;
+import com.a7z.zhihu.util.DateKit;
 import com.a7z.zhihu.util.UUIDUtil;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,22 +41,18 @@ public class ArticleController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public void addOneArticle(ArticlePostVo postVo) {
-        String aid = UUIDUtil.UU32();
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         Article article = new Article();
-        article.setAid(aid);
         article.setCover(postVo.getCover());
-        article.setAuthor("0.0");//代替
+        article.setAuthor(user.getUid());//代替
         article.setTitle(postVo.getTitle());
         article.setContent(postVo.getContent());
-        article.setViews(0);
-        article.setStatus("0");
+        article.setTime(String.valueOf(DateKit.getCurrentUnixTime()));
         String[] tags = postVo.getTags().split("&&");
-
+        System.out.println(article);
+        String aid = articleService.addOne(article);
         tagService.addTag(tags);
         tagService.addTagsForArticle(aid, tags);
-
-
-        articleService.addOne(article);
 
 
     }

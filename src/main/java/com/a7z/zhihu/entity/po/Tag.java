@@ -6,15 +6,15 @@ package com.a7z.zhihu.entity.po;
  */
 public class Tag {
 
-    private String tagId;
+    private int tagId;
     private String name;
+    private String status;
 
-
-    public String getTagId() {
+    public int getTagId() {
         return tagId;
     }
 
-    public void setTagId(String tagId) {
+    public void setTagId(int tagId) {
         this.tagId = tagId;
     }
 
@@ -26,11 +26,21 @@ public class Tag {
         this.name = name;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
     @Override
     public String toString() {
         return "Tag{" +
-                "tagId='" + tagId + '\'' +
+                "tagId=" + tagId +
                 ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -216,7 +216,6 @@
 
     </div>
 
-    <div style="height: 3000px"></div>
 </main>
 
 <!--收藏夹弹出框-->
@@ -237,7 +236,7 @@
                 formData.append("file", file);//键值对
                 formData.append("src", 'questions');//键值对
                 $.ajax({
-                    url: '/common/image',
+                    url: '/image',
                     dataType: 'json',
                     type: 'POST',
                     async: true,
@@ -272,10 +271,13 @@
                     content: content,
                     imgs: imgs,
                     anonymous: anonymous,
-                })
+                }),success:function () {
+                    alert("提交成功！");
+                    window.location.reload();
+                }
             })
+        });
 
-        })
 
     });
 </script>

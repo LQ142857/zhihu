@@ -132,7 +132,7 @@
                 formData.append("file", file);//键值对
                 formData.append("src", "articles");//键值对
                 $.ajax({
-                    url: '/common/image',
+                    url: '/image',
                     dataType: 'json',
                     type: 'POST',
                     async: true,
@@ -204,8 +204,10 @@
                     title: title,
                     content: content,
                     tags: tags
-                }),
-
+                }),success:function () {
+                    alert("发表成功！");
+                    window.location.reload();
+                }
             })
             ;
 

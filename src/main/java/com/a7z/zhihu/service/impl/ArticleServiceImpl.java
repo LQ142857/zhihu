@@ -17,10 +17,12 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleDao articleDao;
 
     @Override
-    public void addOne(Article article) {
+    public String addOne(Article article) {
         articleDao.addOne(article);
+        return articleDao.queryIdByCover(article.getCover());
 
     }
+
     @Override
     public Article findOne(String aid) {
         return articleDao.findOne(aid);

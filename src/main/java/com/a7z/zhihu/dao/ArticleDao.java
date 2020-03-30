@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleDao {
     @Insert({
-            "INSERT INTO article (aid,cover,author,title,content,time,views,status) " +
-                    "VALUES(#{aid},#{cover},#{author},#{title},#{content},#{time},#{views},#{status})"
+            "INSERT INTO article (cover,author,title,content,time) " +
+                    "VALUES(#{cover},#{author},#{title},#{content},#{time})"
     })
     void addOne(Article article);
 
@@ -24,7 +24,7 @@ public interface ArticleDao {
             "SELECT * FROM Article WHERE aid =#{aid}"
     })
     @Results(id = "Article", value = {
-            @Result(id = true, property = "aid", column = "aid"),
+            @Result(id = true, property = "articleId", column = "articleId"),
             @Result(property = "title", column = "title"),
             @Result(property = "cover", column = "cover"),
             @Result(property = "author", column = "author"),
@@ -35,4 +35,9 @@ public interface ArticleDao {
     })
     Article findOne(String aid);
 
+    @Select({
+            "SELECT article_id FROM article WHERE cover =#{cover}"
+    })
+    String queryIdByCover(String cover);
 }
+

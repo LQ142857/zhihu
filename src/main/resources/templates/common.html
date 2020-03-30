@@ -1,4 +1,5 @@
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
 <!--头部导航栏-->
 <header th:fragment="header">
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -138,7 +139,7 @@
     <div class="col-lg-12"
          style="padding: 17px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
         <div class="col-lg-4" style="text-align: center">
-            <a href="/editor">
+            <a href="/articleEditor">
                 <button class="noButton">
                     <img src="fonts/write.svg" alt="" style="height: 30px;width: 30px">
                     <div style="margin-top: 5px">写文章</div>
@@ -156,11 +157,14 @@
             </a>
         </div>
         <div class="col-lg-4" style="text-align: center">
-            <button class="noButton">
-                <img src="fonts/column3.svg" alt="" style="height: 25px;width: 25px">
-                <div style="margin-top: 5px">发专栏</div>
+            <a href="/topicEditor">
+                <button class="noButton">
+                    <img src="fonts/column3.svg" alt="" style="height: 30px;width: 22px">
+                    <div style="margin-top: 5px">发专栏</div>
 
-            </button>
+                </button>
+            </a>
+
         </div>
     </div>
     <!--身份信息-->
@@ -168,10 +172,9 @@
     <div class="col-lg-12"
          style="margin-top: 10px;padding: 0px 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
         <!--用户未登录第一次显示界面-->
-        <div id="zf-userMessage" class="line2">
-            <!--                        <img class="svgStyle" src="fonts/user-solid.svg" alt="" style="height: 17px;width: 17px;">-->
+        <div shiro:guest id="zf-userMessage" class="line2">
             您还未登录
-            <button class="noButton" onclick="openLoginDiv()"
+            <button id="tips" class="noButton" onclick="openLoginDiv()"
                     style="float: right;color:dodgerblue;text-align: center;min-width: 20px">登陆/注册
             </button>
         </div>
@@ -182,14 +185,14 @@
                             <span class="input-group-addon">
                                  <img src="fonts/user-solid.svg" style="height: 15px;width: 15px">
                             </span>
-                <input type="text" class="form-control" placeholder="账号"
+                <input id="zf-account" type="text" class="form-control" placeholder="邮箱"
                        aria-describedby="sizing-addon3">
             </div>
             <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/password.svg" style="height: 15px;width: 15px">
                             </span>
-                <input type="password" class="form-control" placeholder="密码"
+                <input id="zf-p" type="password" class="form-control" placeholder="密码"
                        aria-describedby="sizing-addon3">
             </div>
             <div class="input-group input-group-sm">
@@ -197,17 +200,17 @@
                                  <img src="fonts/VerificationCode.svg" style="height: 15px;width: 15px">
                             </span>
 
-                <img src="images/test.jpg" alt="" style="height: 40px;width: 100%">
-                <input type="password" class="form-control" placeholder="验证码"
-                       aria-describedby="sizing-addon3">
+                <img id="imgCode" src="/captcha" alt="" style="height: 40px;width: 100%" onclick="changeImg()">
+                <input id="zf-code" autocomplete="off" type="text" class="form-control" placeholder="验证码"
+                       aria-describedby="sizing-addon3" style="border: 1px solid #00000045;">
             </div>
             <div style="text-align: center">
-                <div style="height: 18px;color: red">密码错误</div>
-                <button type="submit" class="btn btn-default"
+                <div id="login-msg" style="height: 18px;color: red"></div>
+                <button type="button" class="btn btn-default" onclick="userLogin()"
                         style="width: 80%;;background:linear-gradient(90deg,#005cff,#2ab0ff);color: white">
                     登录
                 </button>
-                <div style="margin-top: 10px">
+                <div style="margin-top: 30px">
 
                     <button class="noButton" style="font-size: 13px" onclick="openRegisterDiv()">
                         还没有账号？点此注册！
@@ -222,52 +225,52 @@
         <!--用注册界面-->
         <div id="zf-register" hidden class="line2">
             <div style="text-align: center">请填写以下信息完成注册</div>
-            <form action="/users" method="post">
+            <form action="/register" method="post">
                 <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/email.svg" style="height: 15px;width: 15px">
                             </span>
-                    <input type="password" class="form-control" placeholder="邮箱"
+                    <input id="zf-email" name="email" type="email" class="form-control" placeholder="邮箱(最好QQ邮箱)"
                            aria-describedby="sizing-addon3">
                 </div>
                 <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/password2.svg" style="height: 15px;width: 15px">
                             </span>
-                    <input type="password" class="form-control" placeholder="密码"
+                    <input id="zf-password" name="password" type="password" class="form-control" placeholder="密码"
                            aria-describedby="sizing-addon3">
                 </div>
                 <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/password.svg" style="height: 15px;width: 15px">
                             </span>
-                    <input type="password" class="form-control" placeholder="确认密码"
+                    <input id="zf-rePass" name="rePass" type="password" class="form-control" placeholder="确认密码"
                            aria-describedby="sizing-addon3">
                 </div>
                 <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/name.svg" style="height: 15px;width: 15px">
                             </span>
-                    <input type="password" class="form-control" placeholder="用户名"
+                    <input id="zf-name" name="name" autocomplete="off" type="text" class="form-control"
+                           placeholder="用户名"
                            aria-describedby="sizing-addon3">
                 </div>
                 <div class="input-group input-group-sm">
                             <span class="input-group-addon">
                                  <img src="fonts/VerificationCode.svg" style="height: 15px;width: 15px">
                             </span>
-
-
-                    <input type="password" class="form-control" placeholder="邮箱验证码"
+                    <input id="zf-emailCode" name="emailCode" autocomplete="off" type="text" class="form-control"
+                           placeholder="邮箱验证码"
                            aria-describedby="sizing-addon3" style="width: 61%">
-                    <button style="height: 30px;">获取验证码</button>
+                    <button style="height: 30px;" type="button" onclick="registerCode()">获取验证码
+                    </button>
                 </div>
                 <div style="text-align: center">
-                    <div style="height: 18px;color: red">登录成功</div>
-                    <input type="submit" class="btn btn-default"
-                            style="width: 80%;;background:linear-gradient(90deg,#005cff,#2ab0ff);color: white">
-                        注册
-                    </input>
-                    <div style="margin-top: 10px">
+                    <div id="register-msg" style="height: 18px;color: red"></div>
+                    <input type="button" class="btn btn-default"
+                           style="width: 80%;;background:linear-gradient(90deg,#005cff,#2ab0ff);color: white"
+                           value="注册" onclick="userRegister()">
+                    <div style="margin-top: 30px">
 
                         <button class="noButton" style="font-size: 13px" onclick="openLoginDiv()"> 已有账号？点此登录！
                         </button>
@@ -277,13 +280,9 @@
                 </div>
 
             </form>
-
-
-
-
         </div>
         <!--用户已登录面板-->
-        <div id="zf-user" class="line2">
+        <div shiro:authenticated id="zf-user" class="line2 user">
             <div style="margin: 10px 0px">
                 <div style="float: left"><img src="images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt=""
                                               style="width: 40px;height: 40px;border: 1px solid #d2d2d2;border-radius: 2px">
@@ -302,13 +301,13 @@
                 </div>
                 <div style="">
                     <button class="noButton">
-                        粉丝<span style="color:#353535;">12</span>
+                        粉丝<span th:text="${user.fans}" style="color:#353535;">0</span>
                     </button>
                     <button class="noButton">
-                        关注<span style="color:#353535;">12</span>
+                        关注<span th:text="${user.follow}" style="color:#353535;">0</span>
                     </button>
                     <button class="noButton">
-                        获赞<span style="color:#353535;">1262</span>
+                        获赞<span style="color:#353535;">0</span>
                     </button>
                 </div>
 
@@ -321,7 +320,7 @@
     </div>
 
     <!--个人信息-->
-    <div class="col-lg-12"
+    <div shiro:authenticated class="col-lg-12 user"
          style="margin-top: 10px;padding: 8px 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
 
         <div class="line2">

@@ -18,6 +18,26 @@
 
 }
 
+.button-c {
+    color: #0072ff;
+    background-color: rgba(23, 51, 222, 0.23);
+    font-weight: bold;
+    border: none;
+
+}
+
+.button-d {
+    color: #0072ff;
+    background-color: rgba(201, 190, 221, 0.23);
+    font-weight: normal;
+    border: none;
+
+}
+
+.font-top {
+    margin-top: -3px;
+}
+
 .zf-userImg {
 
 }

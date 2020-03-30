@@ -5,21 +5,21 @@ package com.a7z.zhihu.entity.po;
  * @create 2020/3/25-21:59
  */
 public class Article {
-    private String aid;
+    private int articleId;
     private String cover;
-    private String author;
+    private int author;
     private String title;
     private String content;
     private String time;
     private int views;
     private String status;
 
-    public String getAid() {
-        return aid;
+    public int getArticleId() {
+        return articleId;
     }
 
-    public void setAid(String aid) {
-        this.aid = aid;
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
     }
 
     public String getCover() {
@@ -30,11 +30,11 @@ public class Article {
         this.cover = cover;
     }
 
-    public String getAuthor() {
+    public int getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(int author) {
         this.author = author;
     }
 
@@ -81,9 +81,9 @@ public class Article {
     @Override
     public String toString() {
         return "Article{" +
-                "aid='" + aid + '\'' +
+                "aid=" + articleId +
                 ", cover='" + cover + '\'' +
-                ", author='" + author + '\'' +
+                ", author=" + author +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", time='" + time + '\'' +

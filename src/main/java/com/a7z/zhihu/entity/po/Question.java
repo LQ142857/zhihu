@@ -5,28 +5,21 @@ package com.a7z.zhihu.entity.po;
  * @create 2020/3/27-19:57
  */
 public class Question {
-    private String id;
+    private int questionId;
     private String content;
     private int reply;
     private int view;
-    private String author;
-    private int time;
+    private int author;
+    private String time;
     private String anonymous;
+    private String status;
 
-    public String getAnonymous() {
-        return anonymous;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setAnonymous(String anonymous) {
-        this.anonymous = anonymous;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
     public String getContent() {
@@ -36,7 +29,6 @@ public class Question {
     public void setContent(String content) {
         this.content = content;
     }
-
 
     public int getReply() {
         return reply;
@@ -54,32 +46,49 @@ public class Question {
         this.view = view;
     }
 
-    public String getAuthor() {
+    public int getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(int author) {
         this.author = author;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(String anonymous) {
+        this.anonymous = anonymous;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "Question{" +
-                "id='" + id + '\'' +
+                "questionId=" + questionId +
                 ", content='" + content + '\'' +
-                ", reply='" + reply + '\'' +
-                ", view='" + view + '\'' +
-                ", author='" + author + '\'' +
-                ", time=" + time +
+                ", reply=" + reply +
+                ", view=" + view +
+                ", author=" + author +
+                ", time='" + time + '\'' +
                 ", anonymous='" + anonymous + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
