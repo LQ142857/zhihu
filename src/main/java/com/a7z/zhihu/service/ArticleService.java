@@ -1,6 +1,9 @@
 package com.a7z.zhihu.service;
 
 import com.a7z.zhihu.entity.po.Article;
+import com.a7z.zhihu.entity.vo.ArticleGetVo;
+
+import java.util.List;
 
 /**
  * @author lq
@@ -8,7 +11,6 @@ import com.a7z.zhihu.entity.po.Article;
  */
 public interface ArticleService {
     /**
-     *
      * @param article
      * @return文章主键
      */
@@ -16,5 +18,8 @@ public interface ArticleService {
 
     Article findOne(String id);
 
+    List<ArticleGetVo> getListByTime();
+
+    List<ArticleGetVo> getListByView();
 
 }

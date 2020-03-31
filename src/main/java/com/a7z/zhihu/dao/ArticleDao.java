@@ -1,11 +1,10 @@
 package com.a7z.zhihu.dao;
 
 import com.a7z.zhihu.entity.po.Article;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author lq
@@ -39,5 +38,18 @@ public interface ArticleDao {
             "SELECT article_id FROM article WHERE cover =#{cover}"
     })
     String queryIdByCover(String cover);
+
+    @Select({
+            "SELECT * FROM article ORDER BY time DESC LIMIT 10"
+    })
+    @ResultMap("Article")
+    List<Article> queryListByTimeDescLimit10();
+
+
+    @Select({
+            "SELECT * FROM article ORDER BY views DESC LIMIT 10"
+    })
+    @ResultMap("Article")
+    List<Article> queryListByViewDescLimit10();
 }
 

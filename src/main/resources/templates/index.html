@@ -35,32 +35,40 @@
                         </div>
                     </div>
                 </div>
-                <!--一条文章-->
-                <div class="col-lg-12"
-                     style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
-                    <!--正文信息-->
-                    <div class="col-lg-12" style="padding:20px 10px 20px">
-                        <div class="line zf-title"><a href="">什么样的人哈哈?</a></div>
-                        <div class="line">
-                            <button class="noButton" onclick="userInfoGet('test')">
-                                <img lass="zf-userImg" src="images/defaultUser.jpg" alt=""
-                                     style="height: 25px;width: 25px;">
-                                <span class="zf-userName">用户名字</span><span>：</span>
-                            </button>
-                        </div>
-                        <div class="line zf-content">
-                            上面抖了个小机灵。其实我一直感觉如果一个人一直处于学校的那种环境，是真的有书生气的。
-                            和早进入社会打拼的同龄人比，确实少了很多社会气。但是我真的对那些人保持尊敬，因为他们也许是家庭的原因，
-                            不得已早点进入社会打拼，但是每一个奋斗者、打拼者都值得尊敬。
-                        </div>
-                        <div class="line">
-                            <button id="support-123" type="submit" class="btn btn-default zf-agree"
-                                    onclick="toggleButton('support-123','关注话题')"
-                                    style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
-                                <img class="svgStyle" src="fonts/agree.svg" alt="" style="width: 20px ;height: 20px">
-                                赞同115
-                            </button>
-                            <span class="tips" tooltip="显示有多少条踩">
+                <div th:each="a,index,${articleListV}">
+                    <!--一条文章-->
+                    <div class="col-lg-12"
+                         style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                        <!--正文信息-->
+                        <div class="col-lg-12" style="padding:20px 10px 20px">
+                            <div class="line zf-title">?????<a href=""></a></div>
+                            <div class="line">
+                                <button class="noButton" onclick="userInfoGet('test')">
+                                    <img lass="zf-userImg" src="images/defaultUser.jpg" alt=""
+                                         style="height: 25px;width: 25px;">
+                                    <span class="zf-userName">用户名字</span><span>：</span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <div style="float: right">
+                                    <img src="images/v2-e36b36710811127a2a633e4244e5e238_fhd.png" alt="" height="90px" width="150px">
+                                </div>
+                                <div class="line zf-content" style="width: 70%;">
+                                    上面抖了个小机灵。其实我一直感觉如果一个人一直处于学校的那种环境，是真的有书生气的。
+                                    和早进入社会打拼的同龄人比，确实少了很多社会气。但是我真的对那些人保持尊敬，因为他们也许是家庭的原因，
+                                    不得已早点进入社会打拼，但是每一个奋斗者、打拼者都值得尊敬。
+                                </div>
+
+
+                            </div >
+                            <div class="line">
+                                <button id="support-123" type="submit" class="btn btn-default zf-agree"
+                                        onclick="toggleButton('support-123','关注话题')"
+                                        style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
+                                    <img class="svgStyle" src="fonts/agree.svg" alt="" style="width: 20px ;height: 20px">
+                                    赞同115
+                                </button>
+                                <span class="tips" tooltip="显示有多少条踩">
                                 <button id="dissupport-123" type="submit" class="btn btn-default zf-agree"
                                         style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)"
                                         onclick="toggleButton('dissupport-123')">
@@ -69,110 +77,110 @@
 
                             </button>
                             </span>
-                            <button class="noButton font-c3" style="margin-left: 25px" onclick="openComment(1515)">
-                                <img class="svgStyle" src="fonts/message3.svg" alt="" style="width: 25px ;height: 25px">
-                                550条评论
-                            </button>
+                                <button class="noButton font-c3" style="margin-left: 25px" onclick="openComment(1515)">
+                                    <img class="svgStyle" src="fonts/message3.svg" alt="" style="width: 25px ;height: 25px">
+                                    550条评论
+                                </button>
 
 
-                            <div class="btn-group " style="margin-left: 25px" role="group">
-                                <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <img class="svgStyle" src="fonts/share.svg" alt=""
-                                         style="width: 20px ;height: 20px">
-                                    <span class="font-c3" style="">分享</span>
+                                <div class="btn-group " style="margin-left: 25px" role="group">
+                                    <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <img class="svgStyle" src="fonts/share.svg" alt=""
+                                             style="width: 20px ;height: 20px">
+                                        <span class="font-c3" style="">分享</span>
+
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
+                                            <img class="svgStyle" src="fonts/link.svg" alt=""
+                                                 style="height: 15px;width: 15px">
+                                            复制链接</a>
+                                        </li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
+                                            <img src="fonts/qq.svg" alt="" style="height: 15px;width: 15px">
+                                            QQ空间</a>
+                                        </li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
+                                            <img src="fonts/xinlang.svg" alt="" style="height: 15px;width: 15px">
+                                            新浪微博</a>
+                                        </li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
+                                            <img src="fonts/wechart.svg" alt="" style="height: 15px;width: 15px">
+                                            微信扫一扫</a>
+                                            <div src="" alt="" style="background-color: black;height: 110px"></div>
+                                        </li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0"></a></li>
+                                    </ul>
+                                </div>
+
+
+                                <button class="noButton " style="margin-left: 25px">
+                                    <a href="#open-modal" style="text-decoration: none">
+                                        <img class="svgStyle" src="fonts/favorite-solid.svg" alt=""
+                                             style="width: 20px ;height: 20px">
+                                        <span class="font-c3" style="">收藏</span>
+                                    </a>
+
 
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                        <img class="svgStyle" src="fonts/link.svg" alt=""
-                                             style="height: 15px;width: 15px">
-                                        复制链接</a>
-                                    </li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                        <img src="fonts/qq.svg" alt="" style="height: 15px;width: 15px">
-                                        QQ空间</a>
-                                    </li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                        <img src="fonts/xinlang.svg" alt="" style="height: 15px;width: 15px">
-                                        新浪微博</a>
-                                    </li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                        <img src="fonts/wechart.svg" alt="" style="height: 15px;width: 15px">
-                                        微信扫一扫</a>
-                                        <div src="" alt="" style="background-color: black;height: 110px"></div>
-                                    </li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0"></a></li>
-                                </ul>
+
+
+                                <div class="btn-group" style="margin-left: 25px" role="group">
+                                    <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <img class="svgStyle" src="fonts/more.svg" alt="" style="width: 20px ;height: 20px">
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">不再推荐</a></li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0">没有帮助</a></li>
+                                        <li><a class="line" href="#" style="color: #a0a0a0">举报</a></li>
+                                    </ul>
+                                </div>
+
+
                             </div>
+                        </div>
 
-
-                            <button class="noButton " style="margin-left: 25px">
-                                <a href="#open-modal" style="text-decoration: none">
-                                    <img class="svgStyle" src="fonts/favorite-solid.svg" alt=""
-                                         style="width: 20px ;height: 20px">
-                                    <span class="font-c3" style="">收藏</span>
-                                </a>
-
-
-                            </button>
-
-
-                            <div class="btn-group" style="margin-left: 25px" role="group">
-                                <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <img class="svgStyle" src="fonts/more.svg" alt="" style="width: 20px ;height: 20px">
+                    </div>
+                    <!--该文章下的所有评论-->
+                    <div class="col-lg-12" id="A1515" hidden
+                         style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                        <!--评论导航栏-->
+                        <div class="col-lg-12" style="background-color: #d1d1d1;box-shadow: 0px 0px  2px 2px #dfdfdf;">
+                            <div class="col-lg-6"><h5 style="font-weight: bold">100条评论</h5></div>
+                            <div class="col-lg-6" style="text-align: right">
+                                <button class="noButton " onclick="toggleComments()">
+                                    <h5 class="font-c3"><img src="fonts/switch.svg" style="height: 15px;width: 15px">
+                                        <span id="toggleComments" class="hot">切换为最新评论</span>
+                                    </h5>
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">不再推荐</a></li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0">没有帮助</a></li>
-                                    <li><a class="line" href="#" style="color: #a0a0a0">举报</a></li>
-                                </ul>
                             </div>
-
-
                         </div>
-                    </div>
-
-                </div>
-                <!--该文章下的所有评论-->
-                <div class="col-lg-12" id="A1515" hidden
-                     style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
-                    <!--评论导航栏-->
-                    <div class="col-lg-12" style="background-color: #d1d1d1;box-shadow: 0px 0px  2px 2px #dfdfdf;">
-                        <div class="col-lg-6"><h5 style="font-weight: bold">100条评论</h5></div>
-                        <div class="col-lg-6" style="text-align: right">
-                            <button class="noButton " onclick="toggleComments()">
-                                <h5 class="font-c3"><img src="fonts/switch.svg" style="height: 15px;width: 15px">
-                                    <span id="toggleComments" class="hot">切换为最新评论</span>
-                                </h5>
-                            </button>
-                        </div>
-                    </div>
-                    <!--一条评论-->
-                    <div class="col-lg-12" style="box-shadow: 0px 0px  1px 1px #dfdfdf;">
-                        <div style="margin-top: 15px">
-                            <button class="noButton">
-                                <img src="images/defaultUser.jpg" alt=""
-                                     style="height: 30px;width: 30px;border-radius: 50%">
-                                <span style="color:#136fff;font-weight: bold">用户名字</span>
-                            </button>
-                            <span class="font-c3" style="float: right">2019-5-6-19:28</span>
-                        </div>
-                        <div style="margin: 15px 32px" onmouseenter="showDv2('C123')"
-                             onmouseleave="closeDv2('C123wogaun')">
-                            之前在网易云听到一首韩文歌，里面有一句是I got a crush on you翻译的是我对你一见钟情，当时听到就觉得好喜欢
-                            <div style="margin-top: 10px">
+                        <!--一条评论-->
+                        <div class="col-lg-12" style="box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                            <div style="margin-top: 15px">
                                 <button class="noButton">
-                                    <img src="fonts/agree-%238a8a8a.svg" alt="" style="width: 15px;height: 15px">
-                                    <span class="font-c3">112赞</span>
+                                    <img src="images/defaultUser.jpg" alt=""
+                                         style="height: 30px;width: 30px;border-radius: 50%">
+                                    <span style="color:#136fff;font-weight: bold">用户名字</span>
                                 </button>
+                                <span class="font-c3" style="float: right">2019-5-6-19:28</span>
+                            </div>
+                            <div style="margin: 15px 32px" onmouseenter="showDv2('C123')"
+                                 onmouseleave="closeDv2('C123wogaun')">
+                                之前在网易云听到一首韩文歌，里面有一句是I got a crush on you翻译的是我对你一见钟情，当时听到就觉得好喜欢
+                                <div style="margin-top: 10px">
+                                    <button class="noButton">
+                                        <img src="fonts/agree-%238a8a8a.svg" alt="" style="width: 15px;height: 15px">
+                                        <span class="font-c3">112赞</span>
+                                    </button>
 
-                                <button class="noButton">
-                                    <img src="fonts/message4.svg" alt="" style="width: 15px;height: 15px">
-                                    <span class="font-c3">查看回复</span>
-                                </button>
-                                <span id="C123" hidden>
+                                    <button class="noButton">
+                                        <img src="fonts/message4.svg" alt="" style="width: 15px;height: 15px">
+                                        <span class="font-c3">查看回复</span>
+                                    </button>
+                                    <span id="C123" hidden>
                                 <button class="noButton">
                                     <img src="fonts/recall.svg" alt="" style="width: 15px;height: 15px">
                                     <span class="font-c3">回复</span>
@@ -190,19 +198,21 @@
                                 </button>
                                 </span>
 
+                                </div>
                             </div>
+
+                        </div>
+                        <div style="text-align: right">
+                            <button class="noButton" onclick="closeComment(1515)">
+                                <img src="fonts/putaway.svg" alt=""
+                                     style="transform: rotateX(180deg);width: 20px;height: 20px">
+                                收起评论
+                            </button>
                         </div>
 
                     </div>
-                    <div style="text-align: right">
-                        <button class="noButton" onclick="closeComment(1515)">
-                            <img src="fonts/putaway.svg" alt=""
-                                 style="transform: rotateX(180deg);width: 20px;height: 20px">
-                            收起评论
-                        </button>
-                    </div>
-
                 </div>
+
 
                 <!--一条文章end-->
             </div>
