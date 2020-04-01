@@ -1,9 +1,8 @@
 package com.a7z.zhihu.service.impl;
 
-import com.a7z.zhihu.dao.ArticleDao;
-import com.a7z.zhihu.dao.UserDao;
-import com.a7z.zhihu.dao.UserImgDao;
+import com.a7z.zhihu.dao.*;
 import com.a7z.zhihu.entity.po.Article;
+import com.a7z.zhihu.entity.po.Attitude;
 import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.ArticleGetVo;
 import com.a7z.zhihu.service.ArticleService;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,12 +22,16 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     ArticleDao articleDao;
-
     @Autowired
     UserDao userDao;
-
     @Autowired
     UserImgDao userImgDao;
+    @Autowired
+    AttitudeDao attitudeDao;
+    @Autowired
+    CommentDao commentDao;
+    @Autowired
+    AttentionDao attentionDao;
 
     @Override
     public String addOne(Article article) {
@@ -44,58 +48,65 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleGetVo> getListByTime() {
-        ArrayList<ArticleGetVo> list = new ArrayList<>();
 
-//        private String title;
-//        private String userName;
-//        private String userImg;
-//        private int uid;
-//        private String cover;
-//        private String content;
-//        private int articleId;
-//        private int time;
-//        private int agree;
-//        private int disagree;
-//        private int comment;
-//        private int favorite;
-
-        for (Article article : articleDao.queryListByTimeDescLimit10()) {
-            int uid = article.getAuthor();
-            User author = userDao.findOne(uid);
-            ArticleGetVo getVo = new ArticleGetVo();
-            getVo.setTitle(article.getTitle());
-            getVo.setUserName(author.getName());
-            getVo.setUserImg(userImgDao.queryAvatar(uid));
-            getVo.setUid(uid);
-            getVo.setCover(article.getCover());
-            getVo.setContent(article.getContent());
-            getVo.setArticleId(article.getArticleId());
-            getVo.setTime(article.getTime());
-//            getVo.setAgree();
-//            getVo.setDisagree();
-//            getVo.setComment();
-//            getVo.setFavorite();
-
-
-
-            list.add(getVo);
-        }
-
-
-        return list;
+        return transform(articleDao.queryListByTimeDescLimit10());
     }
 
     @Override
     public List<ArticleGetVo> getListByView() {
-        ArrayList<ArticleGetVo> list = new ArrayList<>();
-        for (Article article : articleDao.queryListByTimeDescLimit10()) {
-            ArticleGetVo getVo = new ArticleGetVo();
 
+        return transform(articleDao.queryListByViewDescLimit10());
+    }
 
-            list.add(getVo);
+    @Override
+    public List<ArticleGetVo> getListByIdo(List<Integer> IdList) {
+        ArrayList<Article> list = new ArrayList<>();
+        for (Integer id : IdList) {
+            List<Article> articles = articleDao.queryListByAuthorDescLimit10(id);
+            for (Article article : articles) {
+                list.add(article);
+            }
         }
 
+        Collections.sort(list);
+        for (Article article : list) {
+            System.out.println(article);
+        }
+        return transform(list);
+    }
 
+    /**
+     * 表中article数据转换成前台数据
+     *
+     * @param articleList
+     * @return
+     */
+    private ArrayList<ArticleGetVo> transform(List<Article> articleList) {
+        ArrayList<ArticleGetVo> list = new ArrayList<>();
+        for (Article article : articleList) {
+            int uid = article.getAuthor();
+            User author = userDao.findOneByUid(uid);
+            ArticleGetVo getVo = new ArticleGetVo();
+            getVo.setTitle(article.getTitle());
+            getVo.setUserName(author.getName());
+            String s = userImgDao.queryAvatar(uid);
+            if (s != null) {
+                getVo.setUserImg("/upload/users/" + s);
+
+            } else {
+                getVo.setUserImg("/upload/users/defaultUser.jpg");
+            }
+            getVo.setUid(uid);
+            getVo.setCover("/upload/articles/" + article.getCover());
+            getVo.setContent(article.getContent());
+            getVo.setArticleId(article.getArticleId());
+            getVo.setTime(article.getTime());
+            getVo.setAgree(attitudeDao.getAllAttentionCount(article.getArticleId(), "1", "1"));
+            getVo.setDisagree(attitudeDao.getAllAttentionCount(article.getArticleId(), "1", "0"));
+            getVo.setComment(commentDao.findAllCommentsCount(article.getArticleId(), "1"));
+            getVo.setFavorite(attentionDao.getPartAttentionCount(article.getArticleId(), "1"));
+            list.add(getVo);
+        }
         return list;
     }
 }

@@ -10,7 +10,7 @@ public class Question {
     private int reply;
     private int view;
     private int author;
-    private String time;
+    private int time;
     private String anonymous;
     private String status;
 
@@ -54,11 +54,11 @@ public class Question {
         this.author = author;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

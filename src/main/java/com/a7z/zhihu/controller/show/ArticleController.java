@@ -2,6 +2,7 @@ package com.a7z.zhihu.controller.show;
 
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
+import com.a7z.zhihu.entity.vo.ArticleGetVo;
 import com.a7z.zhihu.entity.vo.ArticlePostVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.TagService;
@@ -10,11 +11,14 @@ import com.a7z.zhihu.util.UUIDUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * @author lq
@@ -47,15 +51,17 @@ public class ArticleController {
         article.setAuthor(user.getUid());//代替
         article.setTitle(postVo.getTitle());
         article.setContent(postVo.getContent());
-        article.setTime(String.valueOf(DateKit.getCurrentUnixTime()));
+        article.setTime(DateKit.getCurrentUnixTime());
         String[] tags = postVo.getTags().split("&&");
         System.out.println(article);
         String aid = articleService.addOne(article);
         tagService.addTag(tags);
         tagService.addTagsForArticle(aid, tags);
 
-
     }
+
+
+
 
 
 }

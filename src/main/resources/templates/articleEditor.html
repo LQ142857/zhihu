@@ -196,6 +196,27 @@
             const title = $("#title").val();
             const content = UE.getEditor('editor').getContent();
             const tags = $("#tags").text();
+            if (cover === "") {
+                alert("请上传封面图片");
+                return;
+            }
+            if (title === "") {
+                alert("标题不能空");
+                return;
+            }
+            if (title.length>30) {
+                alert("标题过长");
+                return;
+            }
+            if (content === "") {
+                alert("内容不能为空");
+                return;
+            }
+            if (tags === "") {
+                alert("请添加标签");
+                return;
+            }
+
             $.ajax({
                 url: "/articles",
                 method: "POST",
@@ -204,7 +225,7 @@
                     title: title,
                     content: content,
                     tags: tags
-                }),success:function () {
+                }), success: function () {
                     alert("发表成功！");
                     window.location.reload();
                 }

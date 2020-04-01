@@ -119,6 +119,30 @@ function toggleButton2(id, str) {
 
 /*end按钮按下去开关end*/
 
+/*index二级目录跳转*/
+function directoryChange(id) {
+    $(".types").attr("class", "types");
+    $("#" + id).addClass("typeChoose");
+    var url = '/' + id;
+    $.ajax({
+        url: url,
+        method: 'POST',
+        success: function (data) {
+            $("#flashContent").html(data);
+
+        }
+
+
+    })
+}
+
+/*index二级目录跳转end*/
+
+/*展开关闭内容*/
+
+
+/*展开关闭内容end*/
+
 /*info页面信息切换*/
 function infoChange(id, str) {
 
@@ -314,7 +338,7 @@ function postTopic() {
         alert("标题不能空");
         return;
     }
-    if (title.length>15) {
+    if (title.length > 15) {
         alert("标题过长");
         return;
     }

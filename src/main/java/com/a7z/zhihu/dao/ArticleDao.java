@@ -20,17 +20,18 @@ public interface ArticleDao {
 
 
     @Select({
-            "SELECT * FROM Article WHERE aid =#{aid}"
+            "SELECT * FROM Article WHERE article_id =#{articleId}"
     })
     @Results(id = "Article", value = {
-            @Result(id = true, property = "articleId", column = "articleId"),
+            @Result(id = true, property = "articleId", column = "article_id"),
             @Result(property = "title", column = "title"),
             @Result(property = "cover", column = "cover"),
             @Result(property = "author", column = "author"),
             @Result(property = "content", column = "content"),
             @Result(property = "time", column = "time"),
             @Result(property = "views", column = "views"),
-            @Result(property = "status", column = "status")
+            @Result(property = "status", column = "status"),
+            @Result(property = "topic", column = "topic")
     })
     Article findOne(String aid);
 
@@ -51,5 +52,13 @@ public interface ArticleDao {
     })
     @ResultMap("Article")
     List<Article> queryListByViewDescLimit10();
+
+    @Select({
+            "SELECT * FROM article where author =#{id} ORDER BY time DESC LIMIT 10"
+    })
+    @ResultMap("Article")
+    List<Article> queryListByAuthorDescLimit10(int id);
+
+
 }
 

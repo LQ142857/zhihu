@@ -1,15 +1,20 @@
 package com.a7z.zhihu.controller;
 
+import com.a7z.zhihu.dao.UserDao;
 import com.a7z.zhihu.entity.json.HeaderPageJson;
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
+import com.a7z.zhihu.entity.vo.ArticleGetVo;
 import com.a7z.zhihu.service.ArticleService;
+import com.a7z.zhihu.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -23,6 +28,8 @@ public class ComplexController {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/index")
     public ModelAndView index() {
@@ -40,7 +47,7 @@ public class ComplexController {
         model.addObject("user", user);
 
         //文章列表（默认按热度排名）
-        List<Article> listByView = articleService.getListByView();
+        List<ArticleGetVo> listByView = articleService.getListByTime();
         model.addObject("articleListV", listByView);
 
 
@@ -115,6 +122,34 @@ public class ComplexController {
 
         model.setViewName("/login");
         return model;
+    }
+
+    @RequestMapping(value = "/hot", method = RequestMethod.POST)
+    public String flashHot(Model model) {
+        List<ArticleGetVo> listByView = articleService.getListByView();
+        model.addAttribute("articleListV", listByView);
+        return "index::flashContent";
+    }
+
+    @RequestMapping(value = "/time", method = RequestMethod.POST)
+    public String flashTime(Model model) {
+        List<ArticleGetVo> listByView = articleService.getListByTime();
+
+        model.addAttribute("articleListV", listByView);
+
+        return "index::flashContent";
+    }
+
+    @RequestMapping(value = "/follow", method = RequestMethod.POST)
+    public String flashFollow(Model model) {
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        List<Integer> ido = userService.queryIdo(user.getUid());
+
+        List<ArticleGetVo> listByView = articleService.getListByIdo(ido);
+
+        model.addAttribute("articleListV", listByView);
+
+        return "index::flashContent";
     }
 
 

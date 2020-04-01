@@ -4,15 +4,24 @@ package com.a7z.zhihu.entity.po;
  * @author lq
  * @create 2020/3/25-21:59
  */
-public class Article {
+public class Article implements Comparable {
     private int articleId;
     private String cover;
     private int author;
     private String title;
     private String content;
-    private String time;
+    private int time;
     private int views;
     private String status;
+    private int topic;
+
+    public int getTopic() {
+        return topic;
+    }
+
+    public void setTopic(int topic) {
+        this.topic = topic;
+    }
 
     public int getArticleId() {
         return articleId;
@@ -54,11 +63,11 @@ public class Article {
         this.content = content;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -81,14 +90,21 @@ public class Article {
     @Override
     public String toString() {
         return "Article{" +
-                "aid=" + articleId +
+                "articleId=" + articleId +
                 ", cover='" + cover + '\'' +
                 ", author=" + author +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", time='" + time + '\'' +
+                ", time=" + time +
                 ", views=" + views +
                 ", status='" + status + '\'' +
+                ", topic=" + topic +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Article article = (Article) o;
+        return article.getTime() - this.getTime();
     }
 }

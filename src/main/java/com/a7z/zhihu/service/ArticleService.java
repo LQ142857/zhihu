@@ -22,4 +22,7 @@ public interface ArticleService {
 
     List<ArticleGetVo> getListByView();
 
+
+    List<ArticleGetVo> getListByIdo(List<Integer> IdList);
+
 }
