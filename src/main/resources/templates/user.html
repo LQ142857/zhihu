@@ -19,7 +19,7 @@
             <!--顶部封面-->
             <div class="col-lg-12" style="padding-right: 0px;">
                 <div>
-                    <img src="/images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt="" height="220px " width="100%">
+                    <img th:src="${user.cover}" src="" alt="" height="220px " width="100%">
                 </div>
                 <div class="col-lg-12"
                      style="padding-left: 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
@@ -29,21 +29,20 @@
                            margin-top: -80px">
                     </div>
                     <div style="float:left;padding:20px;width: 80% ">
-                        <div style="font-weight: bold;font-size: 23px">
-                            用户名字
+                        <div>
+                            <span th:text="${user.name}" style="font-weight: bold;font-size: 23px"></span>
                             <img src="/fonts/man.svg" alt="" height="20px" width="20px">
-                            <span class="tips" tooltip="机构认证：淮北师范大学">
+                            <span class="tips" th:if="${user.agency}!=''" th:attr="tooltip='机构认证：'+${user.agency}">
                                 <img src="/fonts/attest.svg" alt=""
                                      style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
                                  </span>
-                            <span class="tips" tooltip="身份认证：已完成实名认证">
+                            <span class="tips" th:if="${user.identity}!=''" th:attr="tooltip='身份认证：'+${user.identity}">
                                 <img src="/fonts/identity.svg" alt=""
                                      style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
                                  </span>
                         </div>
                         <div>
-                            <span style="font-size: 16px;font-weight: normal">
-                                请编辑个性签你是个憨批)你是个憨批)请编辑个性签你是个憨批)你是个憨批)
+                            <span th:text="${user.introduction}" style="font-size: 16px;font-weight: normal">
                             </span>
 
                         </div>
@@ -65,22 +64,22 @@
                      style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
                     <div class="col-lg-12" style="padding:20px 10px 0px 10px">
                         <button id="info1" class="info noButton chooseButtom" onclick="infoChange('info1','动态')">
-                            动态 <span>0</span>
+                            动态 <span th:text="${user.dynamicCount}"></span>
                         </button>
                         <button id="info2" class="info noButton" onclick="infoChange('info2','文章')">
-                            文章<span>0</span>
+                            文章<span th:text="${user.articleCount}"></span>
                         </button>
                         <button id="info3" class="info noButton " onclick="infoChange('info3','回答')">
-                            回答<span>0</span>
+                            回答<span th:text="${user.answerCount}"></span>
                         </button>
                         <button id="info4" class="info noButton " onclick="infoChange('info4','提问')">
-                            提问<span>0</span>
+                            提问<span th:text="${user.questionCount}"></span>
                         </button>
                         <button id="info5" class="info noButton " onclick="infoChange('info5','话题')">
-                            话题<span>0</span>
+                            话题<span th:text="${user.topicCount}"></span>
                         </button>
                         <button id="info6" class="info noButton " onclick="infoChange('info6','收藏')">
-                            收藏<span>0</span>
+                            收藏<span th:text="${user.favoriteCount}"></span>
                         </button>
                         <button id="info7" class="info noButton " onclick="infoChange('info7','关注')">
                             关注
@@ -133,7 +132,7 @@
                         <button class="noButton" onclick="infoChange('info7','关注')">
                             <div style="margin: 20px 0px">
                                 <div style="font-size: 17px;font-weight: bold">关注</div>
-                                <div class="font-c3">100</div>
+                                <div th:text="${user.fansCount}" class="font-c3" ></div>
                             </div>
                         </button>
 
@@ -142,7 +141,7 @@
                         <button class="noButton" onclick="infoChange('info7','关注')">
                             <div style="margin:  20px">
                                 <div style="font-size: 17px;font-weight: bold">粉丝</div>
-                                <div class="font-c3">59195</div>
+                                <div th:text="${user.idoCount}"  class="font-c3"></div>
                             </div>
                         </button>
                     </div>

@@ -1,8 +1,15 @@
 package com.a7z.zhihu.controller.show;
 
+import com.a7z.zhihu.dao.AuthenticateDao;
+import com.a7z.zhihu.dao.UserImgDao;
 import com.a7z.zhihu.entity.json.HeaderPageJson;
+import com.a7z.zhihu.entity.po.User;
+import com.a7z.zhihu.entity.po.UserImg;
 import com.a7z.zhihu.entity.vo.RegisterVo;
 import com.a7z.zhihu.entity.json.UserRegisterJson;
+import com.a7z.zhihu.entity.vo.UserGetVo;
+import com.a7z.zhihu.service.ArticleService;
+import com.a7z.zhihu.service.AuthenticateService;
 import com.a7z.zhihu.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.management.relation.RelationService;
+import javax.persistence.Id;
+
 /**
  * @author lq
  * @create 2020/3/24-17:08
@@ -22,14 +32,52 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    UserImgDao userImgDao;
+    @Autowired
+    AuthenticateService authenticateService;
+    @Autowired
+    ArticleService articleService;
+
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ModelAndView getUserInfo(@PathVariable String id) {
-        System.out.println("do");
+    public ModelAndView getUserInfo(@PathVariable int id) {
+        //导航栏信息
         ModelAndView model = new ModelAndView();
         HeaderPageJson header = new HeaderPageJson();
         model.addObject("header", header);
-        System.out.println(id);
+        //设置用户信息
+        UserGetVo vo = new UserGetVo();
+        User user = userService.findOne(id);
+        vo.setUid(id);
+        vo.setName(user.getName());
+        vo.setIntroduction(user.getIntroduction());
+        String avatar = userImgDao.queryAvatar(id);
+
+        vo.setAvatar((avatar != null) ? "/upload/users" + avatar : "/upload/users/defaultUser.jpg");
+
+        String cover = userImgDao.queryCover(id);
+        vo.setCover((cover != null) ? "/upload/users" + cover : "/upload/users/defaultCover.jpg");
+
+        String identity = authenticateService.getIdentity(id);
+        vo.setIdentity(identity == null ? "" : identity);
+
+        String agency = authenticateService.getAgency(id);
+        vo.setAgency(agency == null ? "" : agency);
+
+
+        vo.setSex(user.getSex());
+        vo.setFansCount(userService.getFansCount(id));
+        vo.setIdoCount(userService.getIdoCount(id));
+        vo.setDynamicCount(0);
+        vo.setArticleCount(articleService.getAllArticleCount(id));
+        vo.setAnswerCount(0);
+        vo.setQuestionCount(0);
+        vo.setTopicCount(0);
+        vo.setFavoriteCount(0);
+
+
+        model.addObject("user", vo);
         model.setViewName("/user");
 
         return model;

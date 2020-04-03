@@ -33,7 +33,7 @@ public interface ArticleDao {
             @Result(property = "status", column = "status"),
             @Result(property = "topic", column = "topic")
     })
-    Article findOne(String aid);
+    Article findOne(int aid);
 
     @Select({
             "SELECT article_id FROM article WHERE cover =#{cover}"
@@ -41,20 +41,25 @@ public interface ArticleDao {
     String queryIdByCover(String cover);
 
     @Select({
-            "SELECT * FROM article ORDER BY time DESC LIMIT 10"
+            "select count(*) from article where author =#{id} and status='1'  "
+    })
+    int queryAllArticleCount(int id);
+
+    @Select({
+            "SELECT * FROM article where status='1' ORDER BY time  DESC LIMIT 10"
     })
     @ResultMap("Article")
     List<Article> queryListByTimeDescLimit10();
 
 
     @Select({
-            "SELECT * FROM article ORDER BY views DESC LIMIT 10"
+            "SELECT * FROM article where status='1' ORDER BY views  DESC LIMIT 10"
     })
     @ResultMap("Article")
     List<Article> queryListByViewDescLimit10();
 
     @Select({
-            "SELECT * FROM article where author =#{id} ORDER BY time DESC LIMIT 10"
+            "SELECT * FROM article where author=#{id} and status='1' ORDER BY time DESC LIMIT 10"
     })
     @ResultMap("Article")
     List<Article> queryListByAuthorDescLimit10(int id);

@@ -93,9 +93,6 @@ public class CommonController {
             e.printStackTrace();
         }
         SecurityUtils.getSubject().getSession().setAttribute("code", s);
-
-
-        System.out.println("验证码：" + s);
     }
 
     /**

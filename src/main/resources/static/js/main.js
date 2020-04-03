@@ -101,11 +101,12 @@ function toggleButton2(id, str) {
     id = "#" + id;
     const hasClass = $(id).hasClass("down");
     if (hasClass) {
-        $(id).css("background-color", "rgba(30,144,255,0.28)");
+        $(id).css("background-color", "rgb(0, 126, 250)");
         $(id).text(str);
 
     } else {
-        $(id).css("background-color", "rgb(0, 126, 250)");
+
+        $(id).css("background-color", "rgba(30,144,255,0.28)");
         $(id).text("已关注");
 
     }
@@ -157,7 +158,7 @@ function infoChange(id, str) {
 
 /*get请求*/
 function userInfoGet(id) {//get请求跳转info页面
-    location.href = "/users&id=" + id;
+    location.href = "/users/" + id;
 }
 
 /*get请求*/

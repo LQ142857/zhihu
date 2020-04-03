@@ -4,14 +4,14 @@ import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.ArticleGetVo;
 import com.a7z.zhihu.entity.vo.ArticlePostVo;
-import com.a7z.zhihu.service.ArticleService;
-import com.a7z.zhihu.service.TagService;
+import com.a7z.zhihu.entity.vo.CommentRootVo;
+import com.a7z.zhihu.service.*;
 import com.a7z.zhihu.util.DateKit;
-import com.a7z.zhihu.util.UUIDUtil;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
 
 /**
  * @author lq
@@ -31,13 +32,37 @@ public class ArticleController {
     ArticleService articleService;
     @Autowired
     TagService tagService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    AttentionService attentionService;
+    @Autowired
+    CommentService commentService;
 
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ModelAndView getOneArticle(@PathVariable("id") String id) {
+    public ModelAndView getOneArticle(@PathVariable("id") int id) {
         ModelAndView model = new ModelAndView();
-        Article one = articleService.findOne(id);
-        model.addObject(one);
+        ArticleGetVo vo = articleService.findOneArticleVo(id);
+
+        //作者信息
+        User author = userService.findOne(vo.getUid());
+        int fans = userService.getFansCount(vo.getUid());
+        model.addObject("author", author);
+        model.addObject("fans", fans);
+
+
+        //文章信息
+        model.addObject("article", vo);
+        String s = DateKit.formatDateByUnixTime(vo.getTime());
+        String[] s1 = s.split(" ");
+        model.addObject("time", s1[0]);
+
+
+        //评论信息
+        List<CommentRootVo> allRootComment = commentService.getAllRootComment(id, "1");
+        model.addObject("comment", allRootComment);
+        model.setViewName("article");
         return model;
     }
 
@@ -59,9 +84,6 @@ public class ArticleController {
         tagService.addTagsForArticle(aid, tags);
 
     }
-
-
-
 
 
 }

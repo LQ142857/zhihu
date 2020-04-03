@@ -2,6 +2,7 @@ package com.a7z.zhihu.service;
 
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.vo.ArticleGetVo;
+import com.a7z.zhihu.entity.vo.ArticlePostVo;
 
 import java.util.List;
 
@@ -16,13 +17,21 @@ public interface ArticleService {
      */
     String addOne(Article article);
 
-    Article findOne(String id);
+    Article findOneArticle(int id);
+
+    ArticleGetVo findOneArticleVo(int id);
+
+    int getAllArticleCount(int id);
+
+    int getDisapprove(int id);
+
+    int getApprove(int id);
 
     List<ArticleGetVo> getListByTime();
 
     List<ArticleGetVo> getListByView();
 
-
     List<ArticleGetVo> getListByIdo(List<Integer> IdList);
+
 
 }

@@ -2,7 +2,6 @@ package com.a7z.zhihu.service.impl;
 
 import com.a7z.zhihu.dao.*;
 import com.a7z.zhihu.entity.po.Article;
-import com.a7z.zhihu.entity.po.Attitude;
 import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.ArticleGetVo;
 import com.a7z.zhihu.service.ArticleService;
@@ -41,9 +40,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findOne(String aid) {
+    public Article findOneArticle(int aid) {
         return articleDao.findOne(aid);
 
+    }
+
+    @Override
+    public ArticleGetVo findOneArticleVo(int id) {
+        Article article = articleDao.findOne(id);
+        return articlePo2vo(article);
+    }
+
+    @Override
+    public int getAllArticleCount(int id) {
+        return articleDao.queryAllArticleCount(id);
+    }
+
+    @Override
+    public int getApprove(int id) {
+        return attitudeDao.getAllAttitudeCount(id, "1", "1");
+    }
+
+    public int getDisapprove(int id) {
+        return attitudeDao.getAllAttitudeCount(id, "1", "0");
     }
 
     @Override
@@ -84,29 +103,38 @@ public class ArticleServiceImpl implements ArticleService {
     private ArrayList<ArticleGetVo> transform(List<Article> articleList) {
         ArrayList<ArticleGetVo> list = new ArrayList<>();
         for (Article article : articleList) {
-            int uid = article.getAuthor();
-            User author = userDao.findOneByUid(uid);
-            ArticleGetVo getVo = new ArticleGetVo();
-            getVo.setTitle(article.getTitle());
-            getVo.setUserName(author.getName());
-            String s = userImgDao.queryAvatar(uid);
-            if (s != null) {
-                getVo.setUserImg("/upload/users/" + s);
-
-            } else {
-                getVo.setUserImg("/upload/users/defaultUser.jpg");
-            }
-            getVo.setUid(uid);
-            getVo.setCover("/upload/articles/" + article.getCover());
-            getVo.setContent(article.getContent());
-            getVo.setArticleId(article.getArticleId());
-            getVo.setTime(article.getTime());
-            getVo.setAgree(attitudeDao.getAllAttentionCount(article.getArticleId(), "1", "1"));
-            getVo.setDisagree(attitudeDao.getAllAttentionCount(article.getArticleId(), "1", "0"));
-            getVo.setComment(commentDao.findAllCommentsCount(article.getArticleId(), "1"));
-            getVo.setFavorite(attentionDao.getPartAttentionCount(article.getArticleId(), "1"));
-            list.add(getVo);
+            ArticleGetVo vo = articlePo2vo(article);
+            list.add(vo);
         }
         return list;
     }
+
+    private ArticleGetVo articlePo2vo(Article article) {
+        ArticleGetVo getVo = new ArticleGetVo();
+        getVo.setTitle(article.getTitle());
+        User user = userDao.findOneByUid(article.getAuthor());
+        getVo.setUserName(user.getName());
+        String s = userImgDao.queryAvatar(user.getUid());
+        if (s != null) {
+            getVo.setUserImg("/upload/users/" + s);
+
+        } else {
+            getVo.setUserImg("/upload/users/defaultUser.jpg");
+        }
+        getVo.setUid(user.getUid());
+        getVo.setCover("/upload/articles/" + article.getCover());
+        getVo.setContent(article.getContent());
+        getVo.setArticleId(article.getArticleId());
+        getVo.setTime(article.getTime());
+        getVo.setViews(article.getViews());
+        getVo.setApprove(attitudeDao.getAllAttitudeCount(article.getArticleId(), "1", "1"));
+        getVo.setDisapprove(attitudeDao.getAllAttitudeCount(article.getArticleId(), "1", "0"));
+        getVo.setComment(commentDao.findAllCommentsCount(article.getArticleId(), "1"));
+        getVo.setFavorite(attentionDao.getPartAttentionCount(article.getArticleId(), "1"));
+        getVo.setFollow(attentionDao.getPartAttentionCount(article.getArticleId(), "2"));
+        return getVo;
+
+    }
+
+
 }
