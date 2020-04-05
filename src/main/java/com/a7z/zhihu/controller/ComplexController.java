@@ -146,5 +146,19 @@ public class ComplexController {
         return "index::flashContent";
     }
 
+    @RequestMapping("/404")
+    public String error404Page(){
+        return "/404";
+    }
+
+    @RequestMapping("/400")
+    public String error400Page(){
+        return "/400";
+    }
+
+    @RequestMapping("/500")
+    public String error500Page(){
+        return "/500";
+    }
 
 }
