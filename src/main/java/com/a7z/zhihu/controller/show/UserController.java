@@ -1,27 +1,18 @@
 package com.a7z.zhihu.controller.show;
 
-import com.a7z.zhihu.dao.AuthenticateDao;
 import com.a7z.zhihu.dao.UserImgDao;
 import com.a7z.zhihu.entity.json.HeaderPageJson;
 import com.a7z.zhihu.entity.po.User;
-import com.a7z.zhihu.entity.po.UserImg;
-import com.a7z.zhihu.entity.vo.RegisterVo;
-import com.a7z.zhihu.entity.json.UserRegisterJson;
-import com.a7z.zhihu.entity.vo.UserGetVo;
+import com.a7z.zhihu.entity.vo.Get.UserGetVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.AuthenticateService;
 import com.a7z.zhihu.service.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.management.relation.RelationService;
-import javax.persistence.Id;
 
 /**
  * @author lq

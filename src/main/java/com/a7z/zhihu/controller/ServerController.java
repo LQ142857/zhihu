@@ -19,7 +19,7 @@ public class ServerController {
     public String config(HttpServletRequest request) {
         String rootPath = UploadUtil.getUploadFilePath() + "upload/";
         String msg= new ActionEnter(request, rootPath).exec();
-        System.out.println(msg);
+//        System.out.println(msg);
         return msg;
     }
 }

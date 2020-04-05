@@ -7,7 +7,6 @@ package com.a7z.zhihu.entity.po;
 public class Question {
     private int questionId;
     private String content;
-    private int reply;
     private int view;
     private int author;
     private int time;
@@ -28,14 +27,6 @@ public class Question {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getReply() {
-        return reply;
-    }
-
-    public void setReply(int reply) {
-        this.reply = reply;
     }
 
     public int getView() {
@@ -83,7 +74,6 @@ public class Question {
         return "Question{" +
                 "questionId=" + questionId +
                 ", content='" + content + '\'' +
-                ", reply=" + reply +
                 ", view=" + view +
                 ", author=" + author +
                 ", time='" + time + '\'' +

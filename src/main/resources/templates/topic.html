@@ -21,62 +21,56 @@
             <div style="margin-top: 30px;"><img src="fonts/column2.svg" alt="" style="height: 40px;width: 30px">
                 <span style="font-size: 25px;padding-left: 15px;font-weight: bold">最新话题</span>
             </div>
-
-            <!--左侧-->
-            <div style="float: left;width: 49%;">
-                <!--一条话题-->
-                <div class="col-lg-12"
-                     style="padding:0px;margin-top: 20px;box-shadow: 0px 0px 1px 1px #c0c0c0;border-radius: 5px">
-                    <div class="col-lg-12" style="padding: 0px;">
-                        <a href="">
-                            <img src="images/v2-0c40996ceafa04e9f4576f3e8ad4ac8b_hd.png" alt=""
-                                 style="width: 100%;height: 200px;border-radius: 5px 5px 0px 0px;border: 1px solid #fdfdfd">
-                        </a>
-                    </div>
-                    <div class="col-lg-12" style="padding: 20px;">
-                        <div style="float: left">
-                            <div style="font-weight: bold;font-size: 17px">
-                                <button class="noButton" style="padding: 0px">直击苹果发布会</button>
-                            </div>
-                            <div class="font-c3" style="font-size: 13px">2020-1-56 · 114848
-                                <img src="fonts/hot.svg" alt="" style="width: 15px;height: 15px;margin-top: -5px;">
-                            </div>
-
+            <div th:each="topic,stat:${topics}">
+                <div th:style="${stat.count}%2!=0?'float: left;width: 49%;':'float: right;width: 49%;'">
+                    <!--一条话题-->
+                    <div class="col-lg-12"
+                         style="padding:0px;margin-top: 20px;box-shadow: 0px 0px 1px 1px #c0c0c0;border-radius: 5px">
+                        <div class="col-lg-12" style="padding: 0px;">
+                            <a th:href="'/topics/'+${topic.tid}">
+                                <img th:src="'/upload/topics/'+${topic.cover} " alt=""
+                                     style="width: 100%;height: 200px;border-radius: 5px 5px 0px 0px;border: 1px solid #fdfdfd">
+                            </a>
                         </div>
-                        <div style="float: right;">
-                            <button id="support-13" type="submit" class="btn btn-default zf-agree"
-                                    onclick="toggleButton2('support-13')"
-                                    style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
-                                关注话题
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-lg-12" style="padding:10px 20px;border-top: 1px solid black">
-                        <a href="">
-                            <div style=" align-items:center;padding-left:10px;margin-top: 10px;
-                                                    overflow:hidden;white-space: nowrap;text-overflow:ellipsis">
-
-                                <img class="svgStyle" src="fonts/article2.svg" alt=""
-                                     style="height: 17px;width: 17px;">
-                                文章名称很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
-
+                        <div class="col-lg-12" style="padding: 20px;border-bottom: 1px solid rgba(170,170,170,0.5)">
+                            <div style="float: left">
+                                <div style="font-weight: bold;font-size: 17px">
+                                    <a th:href="'/topics/'+${topic.tid}">
+                                        <button th:text="${topic.title}" class="noButton" style="padding: 0px"></button>
+                                    </a>
+                                </div>
+                                <div class="font-c3" style="font-size: 13px">
+                                    <span th:text="${topic.time}"></span>
+                                    <span>·</span>
+                                    <span th:text="${topic.views}"></span>
+                                    <img src="fonts/hot.svg" alt="" style="width: 15px;height: 15px;margin-top: -5px;">
+                                </div>
                             </div>
-                        </a>
+                            <div style="float: right;">
+                                <button id="support-13" type="submit" class="btn btn-default zf-agree"
+                                        onclick="toggleButton2('support-13')"
+                                        style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
+                                    关注话题
+                                </button>
+                            </div>
+                        </div>
+                        <div th:each="t,stat:${topic.titleList}">
+                            <div class="col-lg-12"
+                                 style="padding:6px 20px;">
+                                <a th:href="'/topics/'+${topic.tid}">
+                                    <div style=" align-items:center;padding-left:10px;margin-top: 10px;">
+
+                                        <img class="svgStyle" src="fonts/article2.svg" alt=""
+                                             style="height: 17px;width: 17px;">
+                                        <span th:text="${t}" style="overflow:hidden;white-space: nowrap;text-overflow:ellipsis"></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
-
-            <!--右侧-->
-            <div style="float: right;width: 49%;">
-
-
-            </div>
-
-
         </div>
-
-
     </div>
 </main>
 

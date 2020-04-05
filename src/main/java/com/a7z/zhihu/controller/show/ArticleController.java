@@ -2,9 +2,9 @@ package com.a7z.zhihu.controller.show;
 
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
-import com.a7z.zhihu.entity.vo.ArticleGetVo;
-import com.a7z.zhihu.entity.vo.ArticlePostVo;
-import com.a7z.zhihu.entity.vo.CommentRootVo;
+import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
+import com.a7z.zhihu.entity.vo.Post.ArticlePostVo;
+import com.a7z.zhihu.entity.vo.Get.CommentRootGetVo;
 import com.a7z.zhihu.service.*;
 import com.a7z.zhihu.util.DateKit;
 
@@ -43,7 +43,7 @@ public class ArticleController {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ModelAndView getOneArticle(@PathVariable("id") int id) {
         ModelAndView model = new ModelAndView();
-        ArticleGetVo vo = articleService.findOneArticleVo(id);
+        ArticleDetailGetVo vo = articleService.findOneArticleVo(id);
 
         //作者信息
         User author = userService.findOne(vo.getUid());
@@ -60,7 +60,7 @@ public class ArticleController {
 
 
         //评论信息
-        List<CommentRootVo> allRootComment = commentService.getAllRootComment(id, "1");
+        List<CommentRootGetVo> allRootComment = commentService.getAllRootComment(id, "1");
         model.addObject("comment", allRootComment);
         model.setViewName("article");
         return model;

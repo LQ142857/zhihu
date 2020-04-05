@@ -3,8 +3,8 @@ package com.a7z.zhihu.controller;
 import com.a7z.zhihu.entity.json.EmailRegisterJson;
 import com.a7z.zhihu.entity.json.ResultUploadImgJson;
 import com.a7z.zhihu.entity.json.UserRegisterJson;
-import com.a7z.zhihu.entity.vo.LoginVo;
-import com.a7z.zhihu.entity.vo.RegisterVo;
+import com.a7z.zhihu.entity.vo.Post.LoginPostVo;
+import com.a7z.zhihu.entity.vo.Post.RegisterPostVo;
 import com.a7z.zhihu.service.UserService;
 import com.a7z.zhihu.util.MailUtil;
 import com.a7z.zhihu.util.UUIDUtil;
@@ -103,7 +103,7 @@ public class CommonController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public UserRegisterJson register(RegisterVo post) {
+    public UserRegisterJson register(RegisterPostVo post) {
         UserRegisterJson json = new UserRegisterJson();
         if (userService.queryEmail(post.getEmail()) != null) {
             json.setCode(json.ERROR);
@@ -124,7 +124,7 @@ public class CommonController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public EmailRegisterJson login(LoginVo post) {
+    public EmailRegisterJson login(LoginPostVo post) {
         EmailRegisterJson json = new EmailRegisterJson();
         Subject subject = SecurityUtils.getSubject();
         String code = subject.getSession().getAttribute("code").toString();
@@ -150,7 +150,6 @@ public class CommonController {
             json.setCode(403);
             return json;
         }
-
     }
 
 

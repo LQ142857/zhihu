@@ -13,39 +13,7 @@
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script>
-    <style>
 
-
-        /*包含以下五种的链接*/
-        a {
-            text-decoration: none;
-        }
-        /*正常的未被访问过的链接*/
-        a:link {
-            text-decoration: none;
-            color: #333;
-        }
-        /*已经访问过的链接*/
-        a:visited {
-            text-decoration: none;
-            color: #333;
-        }
-        /*鼠标划过(停留)的链接*/
-        a:hover {
-            text-decoration: none;
-            color: #333;
-        }
-        /* 正在点击的链接，鼠标在元素上按下还没有松开*/
-        a:active {
-            text-decoration: none;
-            color: #333;
-        }
-        /* 获得焦点的时候 鼠标松开时显示的颜色*/
-        a:focus {
-            text-decoration: none;
-            color: #333;
-        }
-    </style>
 </head>
 <body>
 <header th:replace="common::header"></header>
@@ -78,21 +46,22 @@
                              style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
                             <!--正文信息-->
                             <div class="col-lg-12" style="padding:20px 10px 20px">
-                                <div th:text="${article.title}" class="line zf-title"><a href=""></a></div>
+                                <a th:href="'/users/'+${article.uid}">
+                                    <div th:text="${article.title}" class="line zf-title"></div>
+                                </a>
                                 <div class="line">
-                                    <button th:id="${article.author}" class="noButton" onclick="userInfoGet('test')">
+                                    <a th:href="'/users/'+${article.uid}">
                                         <img th:src="${article.userImg}" class="zf-userImg" src="" alt=""
                                              style="height: 35px;width: 35px;">
                                         <span th:text="${article.userName}" class="zf-userName"
                                               style="font-size: 15px;font-weight: bold;color: #0089ff;">
-                                    </span>
-                                        <span></span>
-                                    </button>
+                                        </span>
+                                    </a>
                                 </div>
                                 <div class="line">
-                                    <a href="/articles/10014">
-                                        <div th:id="cover+${article.articleId}"
-                                             style="float: right; box-shadow: 0px 0px 1px 1px #e7e7e7;border-radius: 10px;">
+                                    <a th:href="'/articles/'+${article.articleId}">
+                                        <div
+                                                style="float: right; box-shadow: 0px 0px 1px 1px #e7e7e7;border-radius: 10px;">
                                             <img th:src="${article.cover}" src="" alt="" height="110px"
                                                  width="190px" style="border-radius: 10px;">
                                         </div>

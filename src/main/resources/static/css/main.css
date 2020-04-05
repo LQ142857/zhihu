@@ -69,6 +69,19 @@
 
 }
 
+.questionChoose {
+    float: left;
+    background-color: rgba(0, 103, 255, 0.77);
+    border-radius: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    color: whitesmoke;
+    padding-left: 20px;
+    margin: 20px 5px
+}
+
 .noButton:hover {
     background: none;
     outline: none;
@@ -157,6 +170,43 @@ body {
 .button1:hover {
     background: rgba(0, 60, 255, 0.13);
 }
+
+
+/*包含以下五种的链接*/
+a {
+    text-decoration: none;
+}
+
+/*正常的未被访问过的链接*/
+a:link {
+    text-decoration: none;
+    color: #333;
+}
+
+/*已经访问过的链接*/
+a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+/*鼠标划过(停留)的链接*/
+a:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+/* 正在点击的链接，鼠标在元素上按下还没有松开*/
+a:active {
+    text-decoration: none;
+    color: #333;
+}
+
+/* 获得焦点的时候 鼠标松开时显示的颜色*/
+a:focus {
+    text-decoration: none;
+    color: #333;
+}
+
 
 /*第三方插件提示框*/
 /*例子*/

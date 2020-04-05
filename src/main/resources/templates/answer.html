@@ -25,46 +25,37 @@
                     <div class="col-lg-12"
                          style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf">
                         <a href="">
-                            <div style="float:left;background-color: rgba(0,103,255,0.77);border-radius: 20px;height: 40px;display: flex;
-                            align-items:center;width: 100px;color: whitesmoke;padding-left: 20px;margin: 20px 5px">
+                            <div class="questionChoose">
                                 人气问题
                             </div>
                         </a>
 
                         <a href="">
-                            <div style="float:left;background-color: rgba(0,103,255,0.77);border-radius: 20px;height: 40px;display: flex;
-                            align-items:center;width: 100px;color: whitesmoke;padding-left: 20px;margin: 20px 5px">
+                            <div class="questionChoose">
                                 最新发布
                             </div>
                         </a>
 
                         <a href="">
-                            <div style="float:left;background-color: rgba(0,103,255,0.77);border-radius: 20px;height: 40px;display: flex;
-                            align-items:center;width: 100px;color: whitesmoke;padding-left: 20px;margin: 20px 5px">
-                                悬赏金高
-                            </div>
-                        </a>
-                        <a href="">
-                            <div style="float:left;background-color: rgba(0,103,255,0.77);border-radius: 20px;height: 40px;display: flex;
-                            align-items:center;width: 100px;color: whitesmoke;padding-left: 20px;margin: 20px 5px">
+                            <div class="questionChoose">
                                 回答激烈
                             </div>
                         </a>
                     </div>
                     <!--一条问题-->
-                    <div class="col-lg-12"
+                    <div th:each="question,start:${questionList}" class="col-lg-12"
                          style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf">
-                        <div class="col-lg-12" style="margin: 20px 0px;padding:0px 15px " onmouseenter="showDv2('q123')"
-                             onmouseleave="closeDv2('q123')">
+                        <div class="col-lg-12" style="margin: 20px 0px;padding:0px 15px ">
                             <div>
-                                <span style="font-weight:bold;width: 80%;font-size: 18px">怎么让你喜欢我?</span>
-                                <button id="q123" hidden class="noButton" style="float: right"><img
-                                        src="fonts/delete.svg" alt=""
-                                        style="height: 20px;width: 20px;">
-                                </button>
+                                <a th:href="'/questions/'+${question.questionId}">
+                                    <span th:text="${question.content}"
+                                          style="font-weight:bold;width: 80%;font-size: 18px"></span>
+                                    <button hidden class="noButton" style="float: right"><img
+                                            src="fonts/delete.svg" alt=""
+                                            style="height: 20px;width: 20px;">
+                                    </button>
+                                </a>
                             </div>
-
-
                             <div style="margin: 20px 30px 10px 0px;float: left">
                                 <button class="btDown" style="display: flex; align-items:center;height: 30px">
                                     <img src="fonts/pen%20.svg" alt="" style="width: 20px;height: 20px">写回答
@@ -72,7 +63,8 @@
                             </div>
                             <div style="margin: 20px 30px 10px 0px;float: left">
                                 <button class="noButton font-c3" style="display: flex; align-items:center;height: 30px">
-                                    <img src="fonts/add.svg" alt="" style="width: 20px;height: 20px">关注问题
+                                    <img src="fonts/add.svg" alt=""
+                                         style="width: 14px;height: 14px; margin-top: -2px;">关注问题
                                 </button>
                             </div>
                             <div style="margin: 20px 30px 10px 0px;float: left">
@@ -81,7 +73,8 @@
                                 </button>
                             </div>
                             <div class="font-c3" style="margin: 20px 30px 10px 0px;float: right">
-                                <img src="fonts/hot.svg" alt="" style="width: 20px;height: 20px">128
+                                <img src="fonts/hot.svg" alt="" style="width: 20px;height: 20px">
+                                <span th:text="${question.view}"></span>
 
                             </div>
                             <div class="font-c3" style="margin: 20px 30px 10px 0px;float: right">

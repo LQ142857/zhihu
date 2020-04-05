@@ -1,11 +1,13 @@
 package com.a7z.zhihu.controller;
 
-import com.a7z.zhihu.dao.UserDao;
 import com.a7z.zhihu.entity.json.HeaderPageJson;
-import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
-import com.a7z.zhihu.entity.vo.ArticleGetVo;
+import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
+import com.a7z.zhihu.entity.vo.Get.QuestionSimpleGetVo;
+import com.a7z.zhihu.entity.vo.Get.TopicSimpleGetVo;
 import com.a7z.zhihu.service.ArticleService;
+import com.a7z.zhihu.service.QuestionService;
+import com.a7z.zhihu.service.TopicService;
 import com.a7z.zhihu.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,12 @@ import java.util.List;
 public class ComplexController {
     @Autowired
     ArticleService articleService;
-
     @Autowired
     UserService userService;
-
+    @Autowired
+    QuestionService questionService;
+    @Autowired
+    TopicService topicService;
     @RequestMapping("/index")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView();
@@ -47,7 +51,7 @@ public class ComplexController {
         model.addObject("user", user);
 
         //文章列表（默认按热度排名）
-        List<ArticleGetVo> listByView = articleService.getListByTime();
+        List<ArticleDetailGetVo> listByView = articleService.getListByTime();
         model.addObject("articleListV", listByView);
 
 
@@ -59,50 +63,44 @@ public class ComplexController {
     @RequestMapping("/answer")
     public ModelAndView answer() {
         ModelAndView model = new ModelAndView();
+        //导航栏信息
         HeaderPageJson header = new HeaderPageJson();
         header.setAnswer("active");
+        model.addObject("header", header);
+        //当前用户信息
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
         User user = new User();
         if (sessionUser != null) {
             user = (User) sessionUser;
         }
-
         model.addObject("user", user);
 
+        //问题信息
+        List<QuestionSimpleGetVo> questionList = questionService.findSimpleListByTime(0,10);
+        model.addObject("questionList", questionList);
         model.setViewName("/answer");
-        model.addObject("header", header);
+
         return model;
     }
 
     @RequestMapping("/topic")
     public ModelAndView topic() {
         ModelAndView model = new ModelAndView();
+        //头信息
         HeaderPageJson header = new HeaderPageJson();
         header.setTopic("active");
-
-
+        model.addObject("header", header);
+        //话题信息
+        List<TopicSimpleGetVo> newestTopics = topicService.findNewestTopics();
         model.setViewName("/topic");
-        model.addObject("header", header);
+        model.addObject("topics", newestTopics);
         return model;
     }
 
-    @RequestMapping("/test")
-    public ModelAndView test() {
-        ModelAndView model = new ModelAndView();
-        HeaderPageJson header = new HeaderPageJson();
-        header.setTopic("active");
-
-
-        model.setViewName("/column");
-        model.addObject("header", header);
-        return model;
-    }
 
     @RequestMapping("/topicEditor")
     public ModelAndView test2() {
         ModelAndView model = new ModelAndView();
-
-
         model.setViewName("/topicEditor");
         return model;
     }
@@ -117,28 +115,24 @@ public class ComplexController {
     }
 
 
-
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView model = new ModelAndView();
-
         model.setViewName("/login");
         return model;
     }
 
     @RequestMapping(value = "/hot", method = RequestMethod.POST)
     public String flashHot(Model model) {
-        List<ArticleGetVo> listByView = articleService.getListByView();
+        List<ArticleDetailGetVo> listByView = articleService.getListByView();
         model.addAttribute("articleListV", listByView);
         return "index::flashContent";
     }
 
     @RequestMapping(value = "/time", method = RequestMethod.POST)
     public String flashTime(Model model) {
-        List<ArticleGetVo> listByView = articleService.getListByTime();
-
+        List<ArticleDetailGetVo> listByView = articleService.getListByTime();
         model.addAttribute("articleListV", listByView);
-
         return "index::flashContent";
     }
 
@@ -146,9 +140,7 @@ public class ComplexController {
     public String flashFollow(Model model) {
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         List<Integer> ido = userService.queryIdo(user.getUid());
-
-        List<ArticleGetVo> listByView = articleService.getListByIdo(ido);
-
+        List<ArticleDetailGetVo> listByView = articleService.getListByIdo(ido);
         model.addAttribute("articleListV", listByView);
 
         return "index::flashContent";

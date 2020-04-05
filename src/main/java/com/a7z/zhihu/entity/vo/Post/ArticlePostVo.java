@@ -1,4 +1,4 @@
-package com.a7z.zhihu.entity.vo;
+package com.a7z.zhihu.entity.vo.Post;
 
 /**
  * @author lq

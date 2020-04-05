@@ -3,7 +3,7 @@ package com.a7z.zhihu.service.impl;
 import com.a7z.zhihu.dao.*;
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
-import com.a7z.zhihu.entity.vo.ArticleGetVo;
+import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
 import com.a7z.zhihu.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,14 +46,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleGetVo findOneArticleVo(int id) {
+    public ArticleDetailGetVo findOneArticleVo(int id) {
         Article article = articleDao.findOne(id);
         return articlePo2vo(article);
     }
 
     @Override
     public int getAllArticleCount(int id) {
-        return articleDao.queryAllArticleCount(id);
+        return articleDao.queryAllArticleCountByAuthorId(id);
     }
 
     @Override
@@ -66,19 +66,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleGetVo> getListByTime() {
+    public List<ArticleDetailGetVo> getListByTime() {
 
         return transform(articleDao.queryListByTimeDescLimit10());
     }
 
     @Override
-    public List<ArticleGetVo> getListByView() {
+    public List<ArticleDetailGetVo> getListByView() {
 
         return transform(articleDao.queryListByViewDescLimit10());
     }
 
     @Override
-    public List<ArticleGetVo> getListByIdo(List<Integer> IdList) {
+    public List<ArticleDetailGetVo> getListByIdo(List<Integer> IdList) {
         ArrayList<Article> list = new ArrayList<>();
         for (Integer id : IdList) {
             List<Article> articles = articleDao.queryListByAuthorDescLimit10(id);
@@ -100,17 +100,17 @@ public class ArticleServiceImpl implements ArticleService {
      * @param articleList
      * @return
      */
-    private ArrayList<ArticleGetVo> transform(List<Article> articleList) {
-        ArrayList<ArticleGetVo> list = new ArrayList<>();
+    private ArrayList<ArticleDetailGetVo> transform(List<Article> articleList) {
+        ArrayList<ArticleDetailGetVo> list = new ArrayList<>();
         for (Article article : articleList) {
-            ArticleGetVo vo = articlePo2vo(article);
+            ArticleDetailGetVo vo = articlePo2vo(article);
             list.add(vo);
         }
         return list;
     }
 
-    private ArticleGetVo articlePo2vo(Article article) {
-        ArticleGetVo getVo = new ArticleGetVo();
+    private ArticleDetailGetVo articlePo2vo(Article article) {
+        ArticleDetailGetVo getVo = new ArticleDetailGetVo();
         getVo.setTitle(article.getTitle());
         User user = userDao.findOneByUid(article.getAuthor());
         getVo.setUserName(user.getName());

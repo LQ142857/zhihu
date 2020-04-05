@@ -1,18 +1,15 @@
 package com.a7z.zhihu.dao;
 
 import com.a7z.zhihu.entity.po.Article;
-import com.a7z.zhihu.entity.vo.ArticleGetVo;
-import com.a7z.zhihu.entity.vo.CommentRootVo;
+import com.a7z.zhihu.entity.vo.Get.CommentRootGetVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.CommentService;
-import com.a7z.zhihu.util.DateKit;
 import com.a7z.zhihu.util.MailUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.mail.MessagingException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,9 +31,12 @@ class ArticleDaoTest {
     CommentService commentService;
 
     @Test
-    void testDateKit() {
-        CommentRootVo allChildComment = commentService.getAllChildComment(10014, 10004, "1");
-        System.out.println(allChildComment);
+    void  testDateKit() {
+        List<CommentRootGetVo> allRootComment = commentService.getAllRootComment(10001, "2");
+
+        for (CommentRootGetVo commentRootGetVo : allRootComment) {
+            System.out.println(commentRootGetVo);
+        }
 
     }
 
