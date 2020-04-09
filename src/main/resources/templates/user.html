@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>毕设知乎系统-首页</title>
+    <title>毕设知乎系统-用户</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -12,8 +13,43 @@
     <script src="/js/main.js"></script>
 </head>
 <body>
-<header th:replace="common::header"></header>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index" style="color:#2eb3ee;font-size: 25px">仿知乎</a>
+            </div>
+
+            <div style="margin-top: 8px">
+
+                <input type="text" class="form-control" placeholder="里面写一个问题从数据库中" style="float: left;width: 300px">
+                <button type="submit" class="btn btn-default"
+                        style="background-color: dodgerblue;color: white">搜索用户
+                </button>
+
+                <button class="btn btn-info" style="float: right;;background-color: #00000000;color: #46b8da"
+                        onclick="href('/set')">
+                    <img src="/fonts/write-46b8da.svg" alt="" height="20px" width="20px">
+                    修改资料
+                </button>
+
+
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
 <main style="margin-top: 60px">
+    <span hidden th:text="${user.uid}" id="userId"></span>
     <div class="container">
         <div class="row">
             <!--顶部封面-->
@@ -24,7 +60,7 @@
                 <div class="col-lg-12"
                      style="padding-left: 30px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
                     <div style="float: left">
-                        <img src="/images/defaultUser.jpg" alt="" width="180px" height="180px"
+                        <img th:src="${user.avatar}" alt="" width="180px" height="180px"
                              style="border: 5px solid white;border-radius: 5px;
                            margin-top: -80px">
                     </div>
@@ -46,11 +82,11 @@
                             </span>
 
                         </div>
-                        <div style="float: right;font-weight: bold;font-size: 23px">
+                        <div shiro:authenticated th:if="${subject}!=${user.uid}" style="float: right;font-weight: bold;font-size: 23px">
                             <button id="support-13" type="submit" class="btn btn-default zf-agree"
-                                    onclick="toggleButton2('support-13','关注他')"
+                                    onclick="toggleButton2('support-13','关注Ta')"
                                     style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
-                                关注他
+                                关注Ta
                             </button>
                         </div>
                     </div>
@@ -63,44 +99,71 @@
                 <div class="col-lg-12"
                      style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
                     <div class="col-lg-12" style="padding:20px 10px 0px 10px">
-                        <button id="info1" class="info noButton chooseButtom" onclick="infoChange('info1','动态')">
-                            动态 <span th:text="${user.dynamicCount}"></span>
-                        </button>
-                        <button id="info2" class="info noButton" onclick="infoChange('info2','文章')">
+
+                        <button id="info2" class="info noButton chooseButtom"
+                                onclick="infoChange('info2','articles',0)">
                             文章<span th:text="${user.articleCount}"></span>
                         </button>
-                        <button id="info3" class="info noButton " onclick="infoChange('info3','回答')">
+                        <button id="info3" class="info noButton " onclick="infoChange('info3','answers',0)">
                             回答<span th:text="${user.answerCount}"></span>
                         </button>
-                        <button id="info4" class="info noButton " onclick="infoChange('info4','提问')">
+                        <button id="info4" class="info noButton " onclick="infoChange('info4','questions',0)">
                             提问<span th:text="${user.questionCount}"></span>
                         </button>
-                        <button id="info5" class="info noButton " onclick="infoChange('info5','话题')">
+                        <button id="info5" class="info noButton " onclick="infoChange('info5','topics',0)">
                             话题<span th:text="${user.topicCount}"></span>
                         </button>
-                        <button id="info6" class="info noButton " onclick="infoChange('info6','收藏')">
-                            收藏<span th:text="${user.favoriteCount}"></span>
+                        <button id="info7" class="info noButton " onclick="infoChange('info7','contents',0)">
+                            关注<span th:text="${user.idoCount}"></span>
                         </button>
-                        <button id="info7" class="info noButton " onclick="infoChange('info7','关注')">
-                            关注
+                        <button id="info8" class="info noButton " onclick="infoChange('info8','fans',0)">
+                            粉丝<span th:text="${user.fansCount}"></span>
                         </button>
                     </div>
                 </div>
                 <!--一条文章-->
                 <div class="col-lg-12"
-                     style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
+                     style="position: relative;min-height: 300px;padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
 
-                    <div id="noMessage" class="col-lg-12" style="padding:60px 10px 60px;text-align: center">
+                    <div hidden id="infoLoad" class="contain"
+                         style="position: absolute;left: 45%;top: 50%;width: 100px;height: 80px">
+                        <div class="preload-1">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div hidden id="noMessage" class="col-lg-12" style="padding:60px 10px 60px;text-align: center">
                         <img src="/fonts/cry.svg" alt="" width="100px" height="100px">
                         <div class="font-c3" style="margin-top: 20px">空空如也呢</div>
                     </div>
-                    <div id="message">
+
+
+                    <div class="hd" id="articles">
+                        <span hidden id="articlesCount">0</span>
+                    </div>
+
+                    <div hidden class="hd" id="answers">
+                        <span hidden id="answersCount">0</span>
+
+                    </div>
+                    <div hidden class="hd" id="questions">
+                        <span hidden id="questionsCount">0</span>
 
                     </div>
 
+                    <div hidden class="hd" id="topics">
+                        <span hidden id="topicsCount">0</span>
+                    </div>
+                    <div hidden class="hd" id="contents">
+                        <span hidden id="contentsCount">0</span>
+                    </div>
+                    <div hidden class="hd" id="fans">
+                        <span hidden id="fansCount">0</span>
+                    </div>
                 </div>
-
-
                 <!--一条文章end-->
             </div>
 
@@ -129,19 +192,19 @@
                      style="margin-top: 10px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
                     <div style="float:left;width: 50%;text-align: center;
                         border-right: 1px solid #bfbfbf">
-                        <button class="noButton" onclick="infoChange('info7','关注')">
+                        <button class="noButton" onclick="infoChange('info7','contents',0)">
                             <div style="margin: 20px 0px">
                                 <div style="font-size: 17px;font-weight: bold">关注</div>
-                                <div th:text="${user.fansCount}" class="font-c3" ></div>
+                                <div th:text="${user.idoCount}" class="font-c3"></div>
                             </div>
                         </button>
 
                     </div>
                     <div style="float:left;width: 50%;text-align: center">
-                        <button class="noButton" onclick="infoChange('info7','关注')">
+                        <button class="noButton" onclick="infoChange('info8','fans',0)">
                             <div style="margin:  20px">
                                 <div style="font-size: 17px;font-weight: bold">粉丝</div>
-                                <div th:text="${user.idoCount}"  class="font-c3"></div>
+                                <div th:text="${user.fansCount}" class="font-c3"></div>
                             </div>
                         </button>
                     </div>
@@ -181,7 +244,7 @@
             </div>
         </div>
 
-        <div style="height: 3000px"></div>
+
     </div>
 </main>
 
@@ -210,6 +273,11 @@
 
 </div>
 </body>
+<script>
+    window.onload = function () {
+        ajaxInfo("articles", 0);
+    };
 
+</script>
 
 </html>

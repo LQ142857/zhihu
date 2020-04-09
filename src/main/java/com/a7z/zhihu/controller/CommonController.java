@@ -3,6 +3,7 @@ package com.a7z.zhihu.controller;
 import com.a7z.zhihu.entity.json.EmailRegisterJson;
 import com.a7z.zhihu.entity.json.ResultUploadImgJson;
 import com.a7z.zhihu.entity.json.UserRegisterJson;
+import com.a7z.zhihu.entity.vo.Get.UserLoginGetVo;
 import com.a7z.zhihu.entity.vo.Post.LoginPostVo;
 import com.a7z.zhihu.entity.vo.Post.RegisterPostVo;
 import com.a7z.zhihu.service.UserService;
@@ -122,6 +123,12 @@ public class CommonController {
         return json;
     }
 
+    /**
+     * 登录
+     *
+     * @param post
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public EmailRegisterJson login(LoginPostVo post) {
@@ -152,6 +159,11 @@ public class CommonController {
         }
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "/logout";
+    }
 
     /**
      * 获取注册验证码

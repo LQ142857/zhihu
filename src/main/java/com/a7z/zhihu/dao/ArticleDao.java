@@ -1,6 +1,9 @@
 package com.a7z.zhihu.dao;
 
 import com.a7z.zhihu.entity.po.Article;
+import com.a7z.zhihu.entity.vo.Get.ArticleInfoGetVo;
+import com.a7z.zhihu.entity.vo.Get.SettingArticleGetVo;
+import com.a7z.zhihu.entity.vo.pojo.IdTitle;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +25,35 @@ public interface ArticleDao {
                     "VALUES(#{cover},#{author},#{title},#{content},#{time})"
     })
     void addOne(Article article);
+
+    @Update({
+            "update article set status='0' where article_id =#{id} "
+    })
+    void updateStatus(int id);
+
+
+    /**
+     * 根据id搜索标题
+     *
+     * @param id
+     * @return
+     */
+    @Select({
+            "select title from article where article_id =#{id} "
+    })
+    String queryTitle(int id);
+
+
+    @Select({
+            "SELECT article_id,title,content,time FROM article WHERE author=#{id} and `status`=\"1\" ORDER BY time DESC LIMIT #{start},10"
+    })
+    @Results(id = "articleInfo", value = {
+            @Result(id = true, property = "aid", column = "article_id"),
+            @Result(property = "time", column = "time"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "content", column = "content")
+    })
+    List<ArticleInfoGetVo> queryArticleInfo(int id, int start);
 
 
     /**
@@ -66,7 +98,8 @@ public interface ArticleDao {
     @Select({
             "select count(*) from article where author =#{id} and status='1'  "
     })
-    int queryAllArticleCountByAuthorId(int id);
+    int queryAuthorArticleCount(int id);
+
 
     /**
      * 搜索话题的所有文章数量
@@ -81,6 +114,7 @@ public interface ArticleDao {
 
     /**
      * 查询话题旗下三条最热门文章的标题
+     *
      * @param id 话题id
      * @return
      */
@@ -100,6 +134,22 @@ public interface ArticleDao {
     @ResultMap("Article")
     List<Article> queryListByTimeDescLimit10();
 
+
+    /**
+     * 搜索用户发布所有的文章id与标题
+     *
+     * @param id    用户id
+     * @param start 起点
+     * @return
+     */
+    @Select({
+            "select article_id,title from article where author=#{id} order by time desc limit #{start},5"
+    })
+    @Results(id = "idTitle", value = {
+            @Result(id = true, property = "id", column = "article_id"),
+            @Result(property = "title", column = "title")
+    })
+    List<IdTitle> queryListMyArticlesIdTitle(int id, int start);
 
     /**
      * 按照浏览量降序搜索10篇文章
@@ -151,6 +201,18 @@ public interface ArticleDao {
     })
     @ResultMap("Article")
     List<Article> queryListByTopicIdOrderViews(int id, int start, int count);
+
+    @Select({
+            "SELECT article_id,title,status,views,time  FROM article WHERE author =#{id} ORDER BY time desc LIMIT #{start},10"
+    })
+    @Results(id = "settingArticle", value = {
+            @Result(id = true, property = "id", column = "article_id"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "view", column = "views"),
+            @Result(property = "time", column = "time"),
+    })
+    List<SettingArticleGetVo> querySettingArticleGetVo(int id, int start);
 
 }
 

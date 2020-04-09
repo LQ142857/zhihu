@@ -2,6 +2,9 @@ package com.a7z.zhihu.service;
 
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
+import com.a7z.zhihu.entity.vo.Get.ArticleInfoGetVo;
+import com.a7z.zhihu.entity.vo.Get.SettingArticleGetVo;
+import com.a7z.zhihu.entity.vo.pojo.IdTitle;
 
 import java.util.List;
 
@@ -16,11 +19,13 @@ public interface ArticleService {
      */
     String addOne(Article article);
 
+    void changeStatus(int id);
+
     Article findOneArticle(int id);
 
     ArticleDetailGetVo findOneArticleVo(int id);
 
-    int getAllArticleCount(int id);
+    int findAuthorArticleCount(int id);
 
     int getDisapprove(int id);
 
@@ -32,5 +37,10 @@ public interface ArticleService {
 
     List<ArticleDetailGetVo> getListByIdo(List<Integer> IdList);
 
+    List<IdTitle> findMyArticles(int author, int start);
+
+    List<ArticleInfoGetVo> findListArticleInfo(int id, int start);
+
+    List<SettingArticleGetVo> findSettingArticleGetVo(int id, int start);
 
 }

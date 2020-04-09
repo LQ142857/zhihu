@@ -5,6 +5,7 @@ import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
 import com.a7z.zhihu.entity.vo.Get.QuestionSimpleGetVo;
 import com.a7z.zhihu.entity.vo.Get.TopicSimpleGetVo;
+import com.a7z.zhihu.entity.vo.Get.UserLoginGetVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.QuestionService;
 import com.a7z.zhihu.service.TopicService;
@@ -35,6 +36,7 @@ public class ComplexController {
     QuestionService questionService;
     @Autowired
     TopicService topicService;
+
     @RequestMapping("/index")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView();
@@ -44,11 +46,14 @@ public class ComplexController {
 
         //添加用户信息
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
-        User user = new User();
+        Integer id =(Integer) SecurityUtils.getSubject().getPrincipal();
+        User user;
         if (sessionUser != null) {
             user = (User) sessionUser;
+            UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
+            model.addObject("info", loginUserInfo);
         }
-        model.addObject("user", user);
+
 
         //文章列表（默认按热度排名）
         List<ArticleDetailGetVo> listByView = articleService.getListByTime();
@@ -67,16 +72,18 @@ public class ComplexController {
         HeaderPageJson header = new HeaderPageJson();
         header.setAnswer("active");
         model.addObject("header", header);
-        //当前用户信息
+
+        //添加用户信息
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
-        User user = new User();
+        User user;
         if (sessionUser != null) {
             user = (User) sessionUser;
+            UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
+            model.addObject("info", loginUserInfo);
         }
-        model.addObject("user", user);
 
         //问题信息
-        List<QuestionSimpleGetVo> questionList = questionService.findSimpleListByTime(0,10);
+        List<QuestionSimpleGetVo> questionList = questionService.findSimpleListByTime(0, 10);
         model.addObject("questionList", questionList);
         model.setViewName("/answer");
 
@@ -90,6 +97,15 @@ public class ComplexController {
         HeaderPageJson header = new HeaderPageJson();
         header.setTopic("active");
         model.addObject("header", header);
+        //添加用户信息
+        Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
+        User user;
+        if (sessionUser != null) {
+            user = (User) sessionUser;
+            UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
+            model.addObject("info", loginUserInfo);
+        }
+
         //话题信息
         List<TopicSimpleGetVo> newestTopics = topicService.findNewestTopics();
         model.setViewName("/topic");
@@ -147,17 +163,17 @@ public class ComplexController {
     }
 
     @RequestMapping("/404")
-    public String error404Page(){
+    public String error404Page() {
         return "/404";
     }
 
     @RequestMapping("/400")
-    public String error400Page(){
+    public String error400Page() {
         return "/400";
     }
 
     @RequestMapping("/500")
-    public String error500Page(){
+    public String error500Page() {
         return "/500";
     }
 

@@ -7,6 +7,7 @@ import com.a7z.zhihu.entity.vo.Get.UserGetVo;
 import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.AuthenticateService;
 import com.a7z.zhihu.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +25,6 @@ public class UserController {
     @Autowired
     UserService userService;
     @Autowired
-    UserImgDao userImgDao;
-    @Autowired
     AuthenticateService authenticateService;
     @Autowired
     ArticleService articleService;
@@ -38,37 +37,11 @@ public class UserController {
         HeaderPageJson header = new HeaderPageJson();
         model.addObject("header", header);
         //设置用户信息
-        UserGetVo vo = new UserGetVo();
-        User user = userService.findOne(id);
-        vo.setUid(id);
-        vo.setName(user.getName());
-        vo.setIntroduction(user.getIntroduction());
-        String avatar = userImgDao.queryAvatar(id);
+        UserGetVo vo = userService.getUserGetVo(id);
 
-        vo.setAvatar((avatar != null) ? "/upload/users" + avatar : "/upload/users/defaultUser.jpg");
-
-        String cover = userImgDao.queryCover(id);
-        vo.setCover((cover != null) ? "/upload/users" + cover : "/upload/users/defaultCover.jpg");
-
-        String identity = authenticateService.getIdentity(id);
-        vo.setIdentity(identity == null ? "" : identity);
-
-        String agency = authenticateService.getAgency(id);
-        vo.setAgency(agency == null ? "" : agency);
-
-
-        vo.setSex(user.getSex());
-        vo.setFansCount(userService.getFansCount(id));
-        vo.setIdoCount(userService.getIdoCount(id));
-        vo.setDynamicCount(0);
-        vo.setArticleCount(articleService.getAllArticleCount(id));
-        vo.setAnswerCount(0);
-        vo.setQuestionCount(0);
-        vo.setTopicCount(0);
-        vo.setFavoriteCount(0);
-
-
+        Integer uid = (Integer) SecurityUtils.getSubject().getPrincipal();
         model.addObject("user", vo);
+        model.addObject("subject", uid);
         model.setViewName("/user");
 
         return model;

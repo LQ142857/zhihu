@@ -4,7 +4,11 @@ import com.a7z.zhihu.dao.*;
 import com.a7z.zhihu.entity.po.Article;
 import com.a7z.zhihu.entity.po.User;
 import com.a7z.zhihu.entity.vo.Get.ArticleDetailGetVo;
+import com.a7z.zhihu.entity.vo.Get.ArticleInfoGetVo;
+import com.a7z.zhihu.entity.vo.Get.SettingArticleGetVo;
+import com.a7z.zhihu.entity.vo.pojo.IdTitle;
 import com.a7z.zhihu.service.ArticleService;
+import com.a7z.zhihu.util.DateKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +44,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public void changeStatus(int id) {
+        articleDao.updateStatus(id);
+    }
+
+    @Override
     public Article findOneArticle(int aid) {
         return articleDao.findOne(aid);
 
@@ -52,8 +61,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public int getAllArticleCount(int id) {
-        return articleDao.queryAllArticleCountByAuthorId(id);
+    public int findAuthorArticleCount(int id) {
+        return articleDao.queryAuthorArticleCount(id);
     }
 
     @Override
@@ -92,6 +101,25 @@ public class ArticleServiceImpl implements ArticleService {
             System.out.println(article);
         }
         return transform(list);
+    }
+
+    @Override
+    public List<IdTitle> findMyArticles(int author, int start) {
+        return articleDao.queryListMyArticlesIdTitle(author, start);
+    }
+
+    @Override
+    public List<ArticleInfoGetVo> findListArticleInfo(int id, int start) {
+        List<ArticleInfoGetVo> list = articleDao.queryArticleInfo(id, start);
+        for (ArticleInfoGetVo vo : list) {
+            vo.setTime(DateKit.formatDateByUnixTime(Long.valueOf(vo.getTime()), "yyyy-MM-dd"));
+        }
+        return list;
+    }
+
+    @Override
+    public List<SettingArticleGetVo> findSettingArticleGetVo(int id, int start) {
+        return articleDao.querySettingArticleGetVo(id, start);
     }
 
     /**
