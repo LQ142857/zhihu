@@ -25,6 +25,10 @@ public interface ArticleService {
 
     ArticleDetailGetVo findOneArticleVo(int id);
 
+    void  changeViews(int aid,int view);
+
+    int getViews(int aid);
+
     int findAuthorArticleCount(int id);
 
     int getDisapprove(int id);

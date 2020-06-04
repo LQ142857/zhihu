@@ -24,9 +24,9 @@ public class UploadUtil {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        int lastIndex = path.lastIndexOf("/") + 1;
+        int lastIndex = path.lastIndexOf(File.separator) + 1;
         path = path.substring(0, lastIndex);
         File file = new File("");
-        return file.getAbsolutePath() + "/";
+        return file.getAbsolutePath() + File.separator;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * 配置beditor文版编辑器
@@ -17,7 +18,7 @@ public class ServerController {
     @RequestMapping("/config")
     @ResponseBody
     public String config(HttpServletRequest request) {
-        String rootPath = UploadUtil.getUploadFilePath() + "upload/";
+        String rootPath = UploadUtil.getUploadFilePath() + "upload"+File.separator;
         String msg= new ActionEnter(request, rootPath).exec();
 //        System.out.println(msg);
         return msg;

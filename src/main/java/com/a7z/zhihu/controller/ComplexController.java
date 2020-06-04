@@ -10,7 +10,9 @@ import com.a7z.zhihu.service.ArticleService;
 import com.a7z.zhihu.service.QuestionService;
 import com.a7z.zhihu.service.TopicService;
 import com.a7z.zhihu.service.UserService;
+import com.a7z.zhihu.util.RedisUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -29,6 +31,8 @@ import java.util.List;
 @Controller
 public class ComplexController {
     @Autowired
+    RedisUtil redisUtil;
+    @Autowired
     ArticleService articleService;
     @Autowired
     UserService userService;
@@ -46,21 +50,26 @@ public class ComplexController {
 
         //添加用户信息
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
-        Integer id =(Integer) SecurityUtils.getSubject().getPrincipal();
+        Integer id = (Integer) SecurityUtils.getSubject().getPrincipal();
         User user;
+        boolean login = false;
         if (sessionUser != null) {
+            login = true;
             user = (User) sessionUser;
             UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
             model.addObject("info", loginUserInfo);
         }
 
 
-        //文章列表（默认按热度排名）
-        List<ArticleDetailGetVo> listByView = articleService.getListByTime();
-        model.addObject("articleListV", listByView);
-
-
-        model.setViewName("/index");
+        //文章列表（默认按时间排名）
+        List<ArticleDetailGetVo> listByTime;
+        if (!redisUtil.hasKey("listByTime")) {
+            redisUtil.set("listByTime", articleService.getListByTime());
+        }
+        listByTime = (List<ArticleDetailGetVo>) redisUtil.get("listByTime");
+        model.addObject("articleListV", listByTime);
+        model.addObject("login", login);
+        model.setViewName("index");
         model.addObject("header", header);
         return model;
     }
@@ -76,7 +85,9 @@ public class ComplexController {
         //添加用户信息
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
         User user;
+        boolean login = false;
         if (sessionUser != null) {
+            login = true;
             user = (User) sessionUser;
             UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
             model.addObject("info", loginUserInfo);
@@ -85,7 +96,8 @@ public class ComplexController {
         //问题信息
         List<QuestionSimpleGetVo> questionList = questionService.findSimpleListByTime(0, 10);
         model.addObject("questionList", questionList);
-        model.setViewName("/answer");
+        model.setViewName("answer");
+        model.addObject("login", login);
 
         return model;
     }
@@ -98,17 +110,21 @@ public class ComplexController {
         header.setTopic("active");
         model.addObject("header", header);
         //添加用户信息
+        boolean login = false;
         Object sessionUser = SecurityUtils.getSubject().getSession().getAttribute("user");
         User user;
         if (sessionUser != null) {
+            login = true;
             user = (User) sessionUser;
             UserLoginGetVo loginUserInfo = userService.getLoginUserInfo(user.getEmail());
             model.addObject("info", loginUserInfo);
         }
 
+
+        model.addObject("login", login);
         //话题信息
         List<TopicSimpleGetVo> newestTopics = topicService.findNewestTopics();
-        model.setViewName("/topic");
+        model.setViewName("topic");
         model.addObject("topics", newestTopics);
         return model;
     }
@@ -117,7 +133,7 @@ public class ComplexController {
     @RequestMapping("/topicEditor")
     public ModelAndView test2() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("/topicEditor");
+        model.setViewName("topicEditor");
         return model;
     }
 
@@ -126,7 +142,7 @@ public class ComplexController {
         ModelAndView model = new ModelAndView();
         HeaderPageJson header = new HeaderPageJson();
         model.addObject("header", header);
-        model.setViewName("/articleEditor");
+        model.setViewName("articleEditor");
         return model;
     }
 
@@ -134,13 +150,19 @@ public class ComplexController {
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("/login");
+        model.setViewName("login");
         return model;
     }
 
     @RequestMapping(value = "/hot", method = RequestMethod.POST)
     public String flashHot(Model model) {
-        List<ArticleDetailGetVo> listByView = articleService.getListByView();
+        List<ArticleDetailGetVo> listByView;
+        if (!redisUtil.hasKey("listByView")) {
+            redisUtil.set("listByView", articleService.getListByView());
+        }
+        listByView = (List<ArticleDetailGetVo>) redisUtil.get("listByView");
+
+
         model.addAttribute("articleListV", listByView);
         return "index::flashContent";
     }
@@ -164,17 +186,23 @@ public class ComplexController {
 
     @RequestMapping("/404")
     public String error404Page() {
-        return "/404";
+        return "404";
     }
 
     @RequestMapping("/400")
     public String error400Page() {
-        return "/400";
+        return "400";
     }
 
     @RequestMapping("/500")
     public String error500Page() {
-        return "/500";
+        return "500";
     }
+
+    @RequestMapping("/test")
+    public String testPgae() {
+        return "test";
+    }
+
 
 }

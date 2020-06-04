@@ -1,16 +1,20 @@
 package com.a7z.zhihu.controller;
 
 import com.a7z.zhihu.entity.json.EmailRegisterJson;
+import com.a7z.zhihu.entity.json.ResultJson;
 import com.a7z.zhihu.entity.json.ResultUploadImgJson;
 import com.a7z.zhihu.entity.json.UserRegisterJson;
+import com.a7z.zhihu.entity.po.UserRelation;
 import com.a7z.zhihu.entity.vo.Get.UserLoginGetVo;
 import com.a7z.zhihu.entity.vo.Post.LoginPostVo;
 import com.a7z.zhihu.entity.vo.Post.RegisterPostVo;
 import com.a7z.zhihu.service.UserService;
+import com.a7z.zhihu.util.DateKit;
 import com.a7z.zhihu.util.MailUtil;
 import com.a7z.zhihu.util.UUIDUtil;
 import com.a7z.zhihu.util.UploadUtil;
 import com.a7z.zhihu.util.VerificationCode.GifCaptcha;
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -197,6 +201,31 @@ public class CommonController {
         }
 
 
+        return json;
+    }
+
+    @RequestMapping("/content")
+    @ResponseBody
+    public ResultJson content(int ido) {
+        ResultJson json = new ResultJson();
+        UserRelation relation = new UserRelation();
+        relation.setIdo(ido);
+        int fan = (Integer) SecurityUtils.getSubject().getPrincipal();
+        relation.setFans(fan);
+        relation.setTime(DateKit.getCurrentUnixTime());
+        UserRelation old = userService.findRelation(ido, fan);
+        String status = "1";
+        if (old != null) {
+            if (old.getStatus().equals("1"))
+                status = "0";
+            relation.setStatus(status);
+            userService.updateRelation(relation);
+        } else {
+            relation.setStatus(status);
+            userService.addRelation(relation);
+        }
+        json.setCode(ResultJson.SUCCESS);
+        json.setMsg(status);
         return json;
     }
 

@@ -78,6 +78,16 @@ public interface ArticleDao {
     })
     Article findOne(int aid);
 
+    @Update({
+            "update article set views =#{views} where article_id=#{aid}"
+    })
+    void updateViews(int aid,int views);
+
+    @Select({
+            "select views from article where article_id =#{aid}"
+    })
+    int queryViews(int aid);
+
     /**
      * 根据封面搜索文章id
      *

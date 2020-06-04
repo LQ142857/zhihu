@@ -61,6 +61,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public void changeViews(int aid, int view) {
+        articleDao.updateViews(aid, view);
+    }
+
+    @Override
+    public int getViews(int aid) {
+        return articleDao.queryViews(aid);
+    }
+
+    @Override
     public int findAuthorArticleCount(int id) {
         return articleDao.queryAuthorArticleCount(id);
     }
@@ -155,6 +165,7 @@ public class ArticleServiceImpl implements ArticleService {
         getVo.setArticleId(article.getArticleId());
         getVo.setTime(article.getTime());
         getVo.setViews(article.getViews());
+        getVo.setTopic(article.getTopic());
         getVo.setApprove(attitudeDao.getAllAttitudeCount(article.getArticleId(), "1", "1"));
         getVo.setDisapprove(attitudeDao.getAllAttitudeCount(article.getArticleId(), "1", "0"));
         getVo.setComment(commentDao.findAllCommentsCount(article.getArticleId(), "1"));
