@@ -252,12 +252,8 @@ function toggleButton(id) {
     const hasClass = $(id).hasClass("down");
     if (hasClass) {
         $(id).css("background-color", "rgba(30,144,255,0.44)");
-
-
     } else {
         $(id).css("background-color", "rgb(0, 126, 250)");
-
-
     }
     if (hasClass) {
         $(id).removeClass("down");
@@ -269,23 +265,26 @@ function toggleButton(id) {
 
 /*end按钮按下去开关end*/
 
+
+/*点赞*/
+
+
+
+/*end点赞end*/
+
+
 /*按钮按下去开关*/
-function toggleButton2(id, str) {
+function toggleButton2(id) {
     id = "#" + id;
     const hasClass = $(id).hasClass("down");
     if (hasClass) {
         $(id).css("background-color", "rgb(0, 126, 250)");
-        $(id).text(str);
-
+        $(id).text("关注Ta");
+        $(id).removeClass("down");
     } else {
 
         $(id).css("background-color", "rgba(30,144,255,0.28)");
         $(id).text("已关注");
-
-    }
-    if (hasClass) {
-        $(id).removeClass("down");
-    } else {
         $(id).addClass("down");
     }
 
@@ -349,7 +348,7 @@ function ajaxInfo(url, start) {
             uid: $("#userId").text(),
             start: start,
         }), success: function (data) {
-
+            console.log(data);
             $(".hd").hide();
             if (data.length === 0) {
                 $("#noMessage").show();

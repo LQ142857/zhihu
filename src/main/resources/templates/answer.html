@@ -19,6 +19,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <span hidden id="login" th:text="${login}"></span>
                 <!--正文内容-->
                 <div class="col-lg-8" style="padding-right: 0px;padding-left: 0PX">
                     <!--二级目录-->
@@ -57,18 +58,18 @@
                                 </a>
                             </div>
                             <div style="margin: 20px 30px 10px 0px;float: left">
-                                <button class="btDown" style="display: flex; align-items:center;height: 30px">
+                                <button class="btDown attention" style="display: flex; align-items:center;height: 30px">
                                     <img src="fonts/pen%20.svg" alt="" style="width: 20px;height: 20px">写回答
                                 </button>
                             </div>
                             <div style="margin: 20px 30px 10px 0px;float: left">
-                                <button class="noButton font-c3" style="display: flex; align-items:center;height: 30px">
+                                <button class="noButton font-c3 attention" style="display: flex; align-items:center;height: 30px">
                                     <img src="fonts/add.svg" alt=""
                                          style="width: 14px;height: 14px; margin-top: -2px;">关注问题
                                 </button>
                             </div>
                             <div style="margin: 20px 30px 10px 0px;float: left">
-                                <button class="noButton font-c3" style="display: flex; align-items:center;height: 30px">
+                                <button class="noButton font-c3 attention" style="display: flex; align-items:center;height: 30px">
                                     <img src="fonts/report.svg" alt="" style="width: 20px;height: 20px">举报
                                 </button>
                             </div>
@@ -102,4 +103,12 @@
 <div th:replace="common::alert-question"></div>
 
 </body>
+
+<script>
+    $(document).ready(function () {
+        if ($("#login").text() !== "true") {
+            $('.attention').attr("disabled", true);
+        }
+    })
+</script>
 </html>

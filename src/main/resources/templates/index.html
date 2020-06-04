@@ -9,6 +9,8 @@
     <title>毕设知乎系统-首页</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="icon" href="images/defaultUser.jpg" type="image/x-icon"/>
+
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/main.css">
@@ -22,6 +24,7 @@
         <div class="row">
             <!--正文内容-->
             <div class="col-lg-8" style="position: relative;padding-right: 0px;">
+                <span hidden id="login" th:text="${login}"></span>
                 <!--load加载页面-->
                 <!--二级目录-->
                 <div class="col-lg-12"
@@ -70,34 +73,34 @@
                                                 <div th:utext="${article.content}"></div>
                                             </div>
                                         </a>
-
-
                                     </div>
                                     <div class="line">
-                                        <button id="support-123" type="submit" class="btn btn-default zf-agree"
+                                        <button id="support-123" type="submit"
+                                                class="approve btn btn-default zf-agree"
                                                 onclick="toggleButton('support-123','关注话题')"
                                                 style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
                                             <img class="svgStyle" src="fonts/agree.svg" alt=""
                                                  style="width: 20px ;height: 20px">
                                             赞同 <span th:text="${article.approve}"></span>
                                         </button>
-                                        <span class="tips" th:attr="tooltip=${article.disapprove}+'踩'" tooltip="">
-                                <button id="dissupport-123" type="submit" class="btn btn-default zf-agree"
-                                        style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)"
-                                        onclick="toggleButton('dissupport-123')">
-                                <img src="fonts/agree.svg" alt=""
-                                     style="width: 20px ;height: 20px;transform: rotateX(180deg)">
+<!--                                        <span class="tips" th:attr="tooltip=${article.disapprove}+'踩'" tooltip="">-->
+<!--                                <button id="dissupport-123" type="submit"-->
+<!--                                        class="approve btn btn-default zf-agree"-->
+<!--                                        style="background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)"-->
+<!--                                        onclick="toggleButton('dissupport-123')">-->
+<!--                                <img src="fonts/agree.svg" alt=""-->
+<!--                                     style="width: 20px ;height: 20px;transform: rotateX(180deg)">-->
 
-                            </button>
-                            </span>
-                                        <button class="noButton font-c3" style="margin-left: 25px"
-                                                onclick="openComment(1515)">
+<!--                            </button>-->
+<!--                            </span>-->
+                                        <a th:href="'/articles/'+${article.articleId}" style="margin-left: 25px">
                                             <img class="svgStyle" src="/fonts/message3.svg" alt=""
                                                  style="width: 25px ;height: 25px">
                                             <span th:text="${article.comment}+'条评论'"></span>
-                                        </button>
+                                        </a>
                                         <div class="btn-group " style="margin-left: 25px" role="group">
-                                            <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
+                                            <button type="button" class="approve dropdown-toggle noButton"
+                                                    data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                 <img class="svgStyle" src="fonts/share.svg" alt=""
                                                      style="width: 20px ;height: 20px">
@@ -115,38 +118,34 @@
                                                     QQ空间</a>
                                                 </li>
                                                 <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                                    <img src="fonts/xinlang.svg" alt="" style="height: 15px;width: 15px">
+                                                    <img src="fonts/xinlang.svg" alt=""
+                                                         style="height: 15px;width: 15px">
                                                     新浪微博</a>
                                                 </li>
                                                 <li><a class="line" href="#" style="color: #a0a0a0;margin-top: 15px">
-                                                    <img src="fonts/wechart.svg" alt="" style="height: 15px;width: 15px">
+                                                    <img src="fonts/wechart.svg" alt=""
+                                                         style="height: 15px;width: 15px">
                                                     微信扫一扫</a>
-                                                    <div src="" alt="" style="background-color: black;height: 110px"></div>
+                                                    <div src="" alt=""
+                                                         style="background-color: black;height: 110px"></div>
                                                 </li>
                                                 <li><a class="line" href="#" style="color: #a0a0a0"></a></li>
                                             </ul>
                                         </div>
 
 
-                                        <button class="noButton " style="margin-left: 25px">
-                                            <a href="#open-modal" style="text-decoration: none">
-                                                <img class="svgStyle" src="fonts/favorite-solid.svg" alt=""
-                                                     style="width: 20px ;height: 20px">
-                                                <span class="font-c3" style="">收藏</span>
-                                            </a>
+                                        <button class="noButton approve" style="margin-left: 25px"
+                                                onclick="href('#open-modal')">
+                                            <img class="svgStyle" src="fonts/favorite-solid.svg" alt=""
+                                                 style="width: 20px ;height: 20px">
+                                            <span class="font-c3" style="">收藏</span>
+
                                         </button>
 
-<!--                                        <button class="openContent noButton" th:id="${article.articleId}"-->
-<!--                                                style="margin-left: 20px">-->
-<!--                                            <img class="svgStyle" src="/fonts/expand.svg" alt=""-->
-<!--                                                 width="20px" height="20px">-->
-<!--                                            <span th:id="${article.articleId}" class="font-c3"-->
-<!--                                                  style="color: #0c64f4">展开</span>-->
-<!--                                        </button>-->
 
-
-                                        <div class="btn-group" style="margin-left: 25px" role="group">
-                                            <button type="button" class="dropdown-toggle noButton" data-toggle="dropdown"
+                                        <div shiro:authenticated class="btn-group" style="margin-left: 25px" role="group">
+                                            <button type="button" class="dropdown-toggle noButton"
+                                                    data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                 <img class="svgStyle" src="fonts/more.svg" alt=""
                                                      style="width: 20px ;height: 20px">
@@ -165,77 +164,7 @@
                                 </div>
 
                             </div>
-                            <!--该文章下的所有评论-->
-                            <div class="col-lg-12" id="A1515" hidden
-                                 style="padding-right: 15px;background-color: #f8f8f8;box-shadow: 0px 0px  1px 1px #dfdfdf;">
-                                <!--评论导航栏-->
-                                <div class="col-lg-12"
-                                     style="background-color: #d1d1d1;box-shadow: 0px 0px  2px 2px #dfdfdf;">
-                                    <div class="col-lg-6"><h5 style="font-weight: bold">100条评论</h5></div>
-                                    <div class="col-lg-6" style="text-align: right">
-                                        <button class="noButton " onclick="toggleComments()">
-                                            <h5 class="font-c3"><img src="fonts/switch.svg"
-                                                                     style="height: 15px;width: 15px">
-                                                <span id="toggleComments" class="hot">切换为最新评论</span>
-                                            </h5>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!--一条评论-->
-                                <div class="col-lg-12" style="box-shadow: 0px 0px  1px 1px #dfdfdf;">
-                                    <div style="margin-top: 15px">
-                                        <button class="noButton">
-                                            <img src="images/defaultUser.jpg" alt=""
-                                                 style="height: 30px;width: 30px;border-radius: 50%">
-                                            <span style="color:#136fff;font-weight: bold">用户名字</span>
-                                        </button>
-                                        <span class="font-c3" style="float: right">2019-5-6-19:28</span>
-                                    </div>
-                                    <div style="margin: 15px 32px" onmouseenter="showDv2('C123')"
-                                         onmouseleave="closeDv2('C123wogaun')">
-                                        之前在网易云听到一首韩文歌，里面有一句是I got a crush on you翻译的是我对你一见钟情，当时听到就觉得好喜欢
-                                        <div style="margin-top: 10px">
-                                            <button class="noButton">
-                                                <img src="fonts/agree-%238a8a8a.svg" alt=""
-                                                     style="width: 15px;height: 15px">
-                                                <span class="font-c3">112赞</span>
-                                            </button>
 
-                                            <button class="noButton">
-                                                <img src="fonts/message4.svg" alt="" style="width: 15px;height: 15px">
-                                                <span class="font-c3">查看回复</span>
-                                            </button>
-                                            <span id="C123" hidden>
-                                <button class="noButton">
-                                    <img src="fonts/recall.svg" alt="" style="width: 15px;height: 15px">
-                                    <span class="font-c3">回复</span>
-                                </button>
-
-                                <button class="noButton">
-                                    <img src="fonts/agree-%238a8a8a.svg" alt=""
-                                         style="transform: rotateX(180deg);width: 15px;height: 15px">
-                                    <span class="font-c3">踩</span>
-                                </button>
-
-                                <button class="noButton">
-                                    <img src="fonts/report.svg" alt="" style="width: 15px;height: 15px">
-                                    <span class="font-c3">举报</span>
-                                </button>
-                                </span>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div style="text-align: right">
-                                    <button class="noButton" onclick="closeComment(1515)">
-                                        <img src="fonts/putaway.svg" alt=""
-                                             style="transform: rotateX(180deg);width: 20px;height: 20px">
-                                        收起评论
-                                    </button>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
 
@@ -266,7 +195,7 @@
 </div>
 
 <!--二级加载动画-->
-<div id="load" hidden class="contain" style="position: absolute;left: 37%;top: 50%;width: 100px;height: 80px" >
+<div id="load" hidden class="contain" style="position: absolute;left: 37%;top: 50%;width: 100px;height: 80px">
     <div class="preload-1">
         <span></span>
         <span></span>
@@ -284,6 +213,11 @@
 </body>
 <script>
     $(document).ready(function (e) {
+
+        if ($("#login").text() !== "true") {
+
+            $('.approve').attr("disabled", true);
+        }
         //问题上传图片
         $('#questionImg').change(function () {
             const file = $(this)[0].files[0];
@@ -356,8 +290,6 @@
 
             })
         });
-
-
     });
 </script>
 

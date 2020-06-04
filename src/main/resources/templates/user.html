@@ -53,6 +53,8 @@
     <div class="container">
         <div class="row">
             <!--顶部封面-->
+            <span id="contentInfo" hidden th:text="${content}"></span>
+            <span id="author" hidden th:text="${user.uid}"></span>
             <div class="col-lg-12" style="padding-right: 0px;">
                 <div>
                     <img th:src="${user.cover}" src="" alt="" height="220px " width="100%">
@@ -67,7 +69,7 @@
                     <div style="float:left;padding:20px;width: 80% ">
                         <div>
                             <span th:text="${user.name}" style="font-weight: bold;font-size: 23px"></span>
-                            <img src="/fonts/man.svg" alt="" height="20px" width="20px">
+                            <img th:src="'/fonts/'+${user.sex}" alt="" height="20px" width="20px">
                             <span class="tips" th:if="${user.agency}!=''" th:attr="tooltip='机构认证：'+${user.agency}">
                                 <img src="/fonts/attest.svg" alt=""
                                      style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
@@ -83,11 +85,12 @@
 
                         </div>
                         <div shiro:authenticated th:if="${subject}!=${user.uid}" style="float: right;font-weight: bold;font-size: 23px">
-                            <button id="support-13" type="submit" class="btn btn-default zf-agree"
-                                    onclick="toggleButton2('support-13','关注Ta')"
-                                    style="float:right;background-color: rgba(30,144,255,0.44);color: white;border-color: rgba(139,0,0,0)">
-                                关注Ta
+                            <button id="support-123" type="submit" class="lbt btn btn-default zf-agree"
+                                    onclick="toggleButton2('support-123','关注Ta')"
+                                    style="float:right;background-color:rgb(0, 126, 250);color: white;border-color: rgba(139,0,0,0)">
+                                关注Ta <span th:text="${fans}"></span>
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -234,7 +237,7 @@
                         <div style="float: left">
                             <img style="margin-top: -5px" src="/fonts/hot.svg" alt=""
                                  height="20px" width="20px"></div>
-                        <div style="float: left;padding-left: 2px" class="font-c3"> 话题总热度</div>
+                        <div style="float: left;padding-left: 2px" class="font-c3"> 浏览总热度</div>
                         <div style="float: left;padding-left: 20px">1.8亿</div>
                     </div>
 
@@ -277,6 +280,44 @@
     window.onload = function () {
         ajaxInfo("articles", 0);
     };
+    $(document).ready(function () {
+
+        $("#support-123").click(function () {
+            $.ajax({
+                url: '/content',
+                method: 'post',
+                data: ({
+                    ido: $('#author').text(),
+                }),
+                success: function (res) {
+                    const id = "#support-123";
+                    if (res.msg === "1") {
+                        $(id).css("background-color", "rgba(30,144,255,0.28)");
+                        $(id).text("已关注");
+                        $(id).addClass("down");
+                    } else {
+                        $(id).css("background-color", "rgb(0, 126, 250)");
+                        $(id).text("关注Ta");
+                        $(id).removeClass("down");
+                    }
+                }
+            })
+        })
+
+
+
+        if ($('#contentInfo').text() === "true") {
+            const id = "#support-123";
+            $(id).css("background-color", "rgba(30,144,255,0.28)");
+            $(id).text("已关注");
+            $(id).addClass("down");
+        } else {
+            const id = "#support-123";
+            $(id).css("background-color", "rgb(0, 126, 250)");
+            $(id).text("关注Ta");
+            $(id).removeClass("down");
+        }
+    })
 
 </script>
 

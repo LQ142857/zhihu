@@ -162,7 +162,7 @@
             <a href="/topicEditor">
                 <button class="noButton">
                     <img src="/fonts/column3.svg" alt="" style="height: 30px;width: 22px">
-                    <div style="margin-top: 5px">发专栏</div>
+                    <div style="margin-top: 5px">发话题</div>
 
                 </button>
             </a>
@@ -274,7 +274,7 @@
                            value="注册" onclick="userRegister()">
                     <div style="margin-top: 30px">
 
-                        <button class="noButton" style="font-size: 13px" onclick="openLoginDiv()"> 已有账号？点此登录！
+                        <button class="noButton" type="button" style="font-size: 13px" onclick="openLoginDiv()"> 已有账号？点此登录！
                         </button>
 
                     </div>
@@ -285,33 +285,36 @@
         </div>
         <!--用户已登录面板-->
         <div shiro:authenticated id="zf-user" class="line2 user">
-            <div style="margin: 10px 0px">
-                <div style="float: left"><img th:src="'/upload/users/'+${info.userImg}" alt=""
-                                              style="width: 40px;height: 40px;border: 1px solid #d2d2d2;border-radius: 2px">
-                </div>
+            <a th:href="'/users/'+${info.uid}">
+                <div style="margin: 10px 0px">
+                    <div style="float: left"><img th:src="'/upload/users/'+${info.userImg}" alt=""
+                                                  style="width: 40px;height: 40px;border: 1px solid #d2d2d2;border-radius: 2px">
+                    </div>
 
-                <div>
-                    <span th:text="${info.name}" style="font-weight: bold;color: black"></span>
-                    <span th:if="${info.agency}!='not'" class="tips" th:attr="tooltip='机构认证：'+${info.agency}">
+                    <div>
+                        <span th:text="${info.name}" style="font-weight: bold;color: black"></span>
+                        <span th:if="${info.agency}!='not'" class="tips" th:attr="tooltip='机构认证：'+${info.agency}">
                                 <img src="/fonts/attest.svg" alt=""
                                      style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
                                  </span>
-                    <span th:if="${info.identity}!='not'" class="tips" th:attr="tooltip='身份认证：'+${info.identity}">
+                        <span th:if="${info.identity}!='not'" class="tips" th:attr="tooltip='身份认证：'+${info.identity}">
                                 <img src="/fonts/identity.svg" alt=""
                                      style="width: 20px;height: 20px;border: 1px solid #d2d2d2;border-radius: 2px">
                                  </span>
-                </div>
-                <div>
-                    <button class="noButton">
-                        粉丝<span th:text="${info.fans}" style="color:#353535;">0</span>
-                    </button>
-                    <button class="noButton">
-                        关注<span th:text="${info.attention}" style="color:#353535;">0</span>
-                    </button>
+                    </div>
+                    <div>
+                        <button class="noButton">
+                            粉丝<span th:text="${info.fans}" style="color:#353535;">0</span>
+                        </button>
+                        <button class="noButton">
+                            关注<span th:text="${info.attention}" style="color:#353535;">0</span>
+                        </button>
+
+                    </div>
 
                 </div>
+            </a>
 
-            </div>
 
 
         </div>

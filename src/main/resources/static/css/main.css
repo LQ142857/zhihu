@@ -69,6 +69,18 @@
 
 }
 
+.noButton:hover {
+    background: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.noButton:active {
+    box-shadow: none;
+    background: none;
+    outline: none;
+}
+
 .questionChoose {
     float: left;
     background-color: rgba(0, 103, 255, 0.77);
@@ -82,17 +94,7 @@
     margin: 20px 5px
 }
 
-.noButton:hover {
-    background: none;
-    outline: none;
-    box-shadow: none;
-}
 
-.noButton:active {
-    box-shadow: none;
-    background: none;
-    outline: none;
-}
 
 .btn-group.open .dropdown-toggle {
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
